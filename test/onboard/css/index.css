@@ -1,0 +1,20 @@
+html,body{
+	background-color:#F0EBF8;
+}
+
+.w-90{
+	width:90%;
+}
+input[type=radio] {
+    border: 0px;
+    width: 20px;
+    height: 20px;
+	position: absolute;
+    top: -2px;
+}
+.form-check-label{
+	max-width:99%;
+}
+.form-group .form-check{
+	margin-bottom:0.45em;
+}

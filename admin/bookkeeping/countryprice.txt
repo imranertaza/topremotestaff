@@ -1,0 +1,4 @@
+PH,60 PHP
+JM,180 JMD
+IN,92 INR
+Default,1.25 USD

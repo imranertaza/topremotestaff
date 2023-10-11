@@ -1,0 +1,309 @@
+/** 
+
+Name: Left Panel CSS
+Developer: Stephen Cabalida
+Version: 1.0
+Date: April 2020
+
+**/
+@import url('https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css');
+fieldset, label, body{
+	margin:0;
+	padding:0;
+	font-family: 'Quicksand', sans-serif;
+}
+
+.container{
+	width:100%;
+	display: block;
+}
+
+
+
+.content table tr td a {
+    color: #fff;
+}
+
+
+
+a{
+    color: #fff;
+}
+
+.header{
+	background-color: #eee;
+	padding-top: 25px;
+    width: 100%;
+    display: table;
+}
+
+
+.logo, .q-panel, .logout {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.logo {
+    width: 45%;
+    padding: 10px 10px 0 10px;
+}
+
+
+
+.text-center{
+	text-align:center;
+}
+.logo img{
+	width:100%;
+	height:auto;
+}
+
+.q-panel{
+	width:35%;
+	padding: 10px 0 0 0 ;
+}
+.q-panel p{
+	font-size: 1rem;
+    font-weight: 700;
+    text-align: center;
+ margin-top: 0;
+ margin-bottom: 0;
+}
+.logout{
+	width:20%;
+	padding: 15px 10px 5px 10px;
+}
+.logout img{
+	width:100%;
+	height:auto;
+}
+.content{
+	background-color: #121212;
+    width: 100%;
+    display: block;
+}
+.content table:first-child{
+	padding:1rem 1rem 0 1rem;
+}
+.content table:last-child{
+	padding:0.5rem 1rem 1rem 1rem;
+}
+.content table{
+    width: 100%;
+	color: #fff;
+	text-align:left;
+	padding:0.5rem 1rem 0 1rem;
+	font-size:13px;
+}
+.content p{
+	margin:5px 0;
+}
+.content table th:nth-child(odd){
+	background-color:#434343;
+    padding: 5px 5px 5px 15px;	
+}
+.content table th:nth-child(even){
+	background-color:#343434;
+    padding: 5px 5px 5px 20px;	
+}
+.content table tr td:nth-child(odd){
+	background-color:#4a4a4a;
+    padding: 5px 5px 5px 15px;
+}
+.content table tr td:nth-child(even){
+	background-color:#272727;
+    padding: 5px 5px 5px 20px;
+}
+.content table:nth-child(1) tr td:nth-child(1){
+	width:60%;
+}
+.content table:nth-child(1) tr td:nth-child(2){
+	width:40%;
+}
+
+.content table:nth-child(2) tr td:nth-child(1){
+	width:50%;
+}
+.content table:nth-child(2) tr td:nth-child(2){
+	width:50%;
+}
+
+.content table:nth-child(4) tr td:nth-child(1){
+	width:80%;
+}
+.content table:nth-child(4) tr td:nth-child(2){
+	width:20%;
+}
+
+.request-btn{
+	width: 100%;
+    max-width: 170px;
+	margin-top:5px;
+}
+.cancel-btn{
+	width: 100%;
+    max-width: 170px;
+	margin-top:5px;
+}
+.envelope-icon{
+	width:20px;
+	animation: blink 1s linear infinite;
+}
+@keyframes blink{
+25%{opacity: .25;}
+50%{opacity: .5;}
+100%{opacity: 1;}
+}
+.padding-0{
+	padding:0 !important;
+}
+.margin-0{
+	margin:0 !important;
+}
+.content table:nth-child(4) th:nth-child(1){
+	background-color:#343434;
+}
+.content table:nth-child(4) th:nth-child(2){
+	background-color:#434343;
+}
+.content table:nth-child(4) tr td{
+	background-color:#272727;
+}
+.rating-wrapper{
+	background-color:#4a4a4a;
+	margin:1rem;
+	padding:0.8rem;
+	color:#fff;
+}
+.rating-wrapper p{
+	color:#fff;
+	font-size:10px;
+	font-weight: 500;
+}
+.rating-wrapper textarea{
+    width: 70%;
+    display: block;
+    margin: auto;
+}
+.rating-wrapper button{
+	padding:0.5rem 1rem;
+	border:0;
+	margin-top:10px;
+	border-radius:4px;
+	background-color:#9a9a9a;
+	color:#fff;
+	cursor:pointer;
+}
+.rating-wrapper button:hover{
+	background-color:#8a8a8a;
+}
+#comment-box{
+	display:none;
+}
+/****** Style Star Rating Widget *****/
+
+.rating { 
+	border: none;
+	width:fit-content;
+}
+
+.rating > input { display: none; } 
+.rating > label:before { 
+	margin: 5px;
+	font-size: 1.25em;
+	font-family: FontAwesome;
+	display: inline-block;
+	content: "\f005";
+}
+.rating > span:before { 
+	margin: 5px;
+	font-size: 1.25em;
+	font-family: FontAwesome;
+	display: inline-block;
+	content: "\f005";
+}
+
+.rating > label { 
+	color: #ddd; 
+	float:right;
+	cursor:pointer;
+}
+.yellow{
+	color: #FFD700 !important;
+}
+
+.bg-white{
+	background-color: #fff !important;
+	border:1px solid #909090;
+	width:25%;
+	margin:0.5rem;
+}
+.bg-white strong,
+.bg-white h5,
+.bg-white p{
+	color:#111 !important;
+}
+.bg-white strong{
+	cursor:pointer;
+}
+.bottom-right{
+	position:absolute;
+	bottom:-15%;
+    right: 0;
+}
+
+.rating-wrapper button.btn2{
+	background-color:#7a7a7a;
+}
+.rating-wrapper button.btn2:hover{
+	background-color:#6a6a6a;
+}
+.overflow-hidden{
+	overflow:hidden;
+}
+.float-right{
+	float:right;
+}
+/***** CSS Magic to Highlight Stars on Hover *****/
+
+.rating > input:checked ~ label, /* show gold star when clicked */
+.rating:not(:checked) > label:hover, /* hover current star */
+.rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+
+.rating > input:checked + label:hover, /* hover current star when changing rating */
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+.rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
+
+
+.social-media .logo{
+    width: 100%;
+    display: block;
+    text-align: center;
+}
+.social-media .logo img{
+	width:100%;
+	max-width:237px;
+}
+.social-media h5{
+	padding:0 4rem;
+	text-align:center;
+}
+.social-media .social-icons .icons{
+	width:33.3333%;
+	float:left;
+}
+.social-media .social-icons{
+	margin: auto;
+    width: 55%;
+}
+.social-media .social-icons .icons p{
+	padding:1.5rem;
+}
+.social-media .social-icons .icons img{
+	width:100%;
+	height:auto;
+	margin:auto;
+	cursor:pointer;
+	display:block;
+}
