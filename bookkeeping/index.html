@@ -184,7 +184,7 @@
                             <div class="section-apply__form apply_now" id="apply_now">
                                 <h2 class="section__h2 section__h2--apply">Apply to be a <span>Bookkeeper</span></h2>
                                 <p class="section__text">Fill out this form, complete a 10-minute test, and get feedback within three business days.</p>
-                                <form class="form" method="post" action="exam.php" enctype="multipart/form-data">
+                                <form name="bookingForm" class="form" method="post" action="exam.php" enctype="multipart/form-data">
                                     <div class="modal__form-wrap">
                                         <input type="text" class="modal__input" name="fullname" placeholder="Full Name (Required)" required="">
                                         <input type="text" class="modal__input" name="email" placeholder="Email (Required)" required="">
@@ -193,10 +193,15 @@
                                            <div class="col-12 fw-input-file">   
                                         <input type="file" id="resume" class="sr-only" name="resume" aria-label="Resume">
                                         <label for="resume" class="btn-up modal__input file_clip" aria-hidden="true">Attach CV</label>
-                                        <span class="file_name"><img src="img/file-ic.svg">File 1.[bin] <a href="#"><img src="img/delete-ic.svg"></a></span>
+                                        <span id="attachedfile" class="file_name" style="display: none;">
+                                            <img src="img/file-ic.svg">
+                                            <span id="fileName">File 1.[bin]</span>
+                                            <a id="deleteAttached"><img src="img/delete-ic.svg"></a>
+                                            <span class="invaliedFileName"></span>
+                                        </span>
                                         </div>
                                     </div>
-                                    <button type="submit" class="button__btn button__btn--modal section-apply__form-submit">Apply</button>
+                                    <button type="button" id="submitBtn" class="bookingFormBtn button__btn button__btn--modal section-apply__form-submit">Apply</button>
                                 </form>
                             </div>
                         </div>
@@ -633,7 +638,71 @@ Get 24/7 real-time support from your account supervisors. You can also connect w
   gtag('js', new Date());
 
   gtag('config', 'AW-1001506790');
+
+
+  var err = 0;
+
+  // Attached file show and delete functions (Start)
+  // var invaliedFileName = document.querySelector(".invaliedFileName");
+  var resume = document.getElementById("resume");
+  var CV_file_span = document.getElementById("attachedfile");
+
+
+  resume.addEventListener("input", function(e){
+      var justFileName = resume.files.item(0).name;
+      const lastDot = justFileName.lastIndexOf('.');
+      var ext = justFileName.substring(lastDot + 1);
+      ext = ext.toLowerCase();
+
+      if (ext != 'docx' && ext != 'doc' && ext != 'pdf') {
+          err = 1;
+          CV_file_span.innerHTML = '<span class="invaliedFileName">Invalid file</span>';
+      }else{
+          err = 0;
+          CV_file_span.innerHTML = '<img src="img/file-ic.svg">' +
+              '<span id="fileName"></span>' +
+              '<a id="deleteAttached"><img src="img/delete-ic.svg"></a>';
+          var fileName = document.getElementById("fileName");
+          fileName.innerHTML = resume.files.item(0).name;
+
+          var CV_deleteAttachedFile = document.getElementById("deleteAttached");
+          CV_deleteAttachedFile.onclick = function(e){
+              err = 1;
+              resume.value = '';
+              if (CV_file_span.style.display === 'flex') {
+                  CV_file_span.style.display = 'none';
+              }
+          };
+      }
+
+      if (CV_file_span.style.display === 'none') {
+          CV_file_span.style.display = 'flex';
+      }
+  });
+
+  var CV_deleteAttachedFile = document.getElementById("deleteAttached");
+  // Attached file show and delete functions (End)
+
+
+
+  //Submit form if valid file is set (Start)
+  const submitBtn = document.getElementById('submitBtn');
+  var bookingForm = document.getElementsByName('bookingForm');
+
+  submitBtn.onclick = function(e) {
+      if (err == 0) {
+          bookingForm[0].submit();
+      }
+  }
+  //Submit form if valid file is set (End)
+
 </script>
+    <style>
+        #deleteAttached{ cursor: pointer;}
+        .invaliedFileName { color: red; }
+        .bookingFormBtn { color: #ffffff !important; font-size: 14px !important; font-weight: bold !important;}
+        .bookingFormBtn:hover { color: #000000 !important;}
+    </style>
 
     </body>
 </html>

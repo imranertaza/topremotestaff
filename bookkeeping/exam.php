@@ -1,34 +1,18 @@
 <?php
 require '../vendor/autoload.php';
+require '../admin/config/url.php';
 ini_set('display_errors', TRUE);
 date_default_timezone_set('UTC');
 require 'admin/proofreading/config/database.php';
 require 'admin/proofreading/controller/crud.php';
+require '../admin/includes/file_upload_library.php';
 
-use Aws\S3\S3Client;
-//use PhpOffice\PhpWord\Settings;
-//use PhpOffice\PhpWord\IOFactory;
-//use PhpOffice\PhpWord\Writer\PDF\TCPDF;
-
-use PhpOffice\PhpWord\IOFactory;
-use PhpOffice\PhpWord\Settings;
-use PhpOffice\PhpWord\PhpWord;
-
-
-$inputFile = '/temp/TnC_WBX_Trading.docx';
-$outputFile = '/temp/output.pdf';
-
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
-// Load the DOCX file
-//$phpWord = PhpWord::load($inputFile);
-$phpWord = \PhpOffice\PhpWord\IOFactory::load($inputFile);
-
- $objWriter = IOFactory::createWriter($phpWord, 'MPDF');
- $objWriter->save('output.pdf');
-
-die();
+// Reset the error reporting level
+error_reporting(E_ERROR);
+//error_reporting(0);
 
 $crud = new Crud();
+$FP = new FileUpload();
 session_start();
 
 //$getQuestions = mysqli_query($db, "SELECT * FROM ts_questions WHERE status='1' ORDER BY date_created DESC LIMIT 15");
@@ -378,7 +362,7 @@ $timestamp = $date->getTimestamp();
 		</style>
 </head>
 <body>
-<center>		<img src="img/logo.svg" class="img-fluid" style="margin-top:2rem;"></center>
+<center><a href="<?php print getBaseUrl(); ?>"><img src="img/logo.svg" class="img-fluid" style="margin-top:2rem;"></a></center>
 <?php
 $Err = '';
 if (empty($_POST["fullname"])) {
@@ -397,103 +381,50 @@ if (empty($_POST["email"])) {
 }
 
 
-if(!empty($_FILES["resume"]["name"])){
+if(empty($_FILES["resume"]["name"])){
     $Err .= "Uploading CV is required<BR>";
 }else {
-    $version = 'latest';
-    $region = 'us-east-1';
-    $access_key_id = 'IZYPG0S914BQY629FNVX';
-    $secret_access_key = '30RDjdqaCHNfJzXoswDUcKUoO7JVIr4vSaZNblNU';
-    $endpoint = 'http://us-east-1.linodeobjects.com';
-    $bucket = 'topremotestaff';
-    $folder = 'cv';
-    //$objectKey = $folder . '/your-file-key-in-minio';
-    $file_name = $folder.'/resume_'.time().'.pdf';
+    $old_file_name = $_FILES["resume"]["name"];
+    $file_name = 'resume_'.time().'.pdf';
+    $outputFile = $FP->tmpPath.$file_name;
+    $ext = explode(".", $old_file_name);
+    $extension = strtolower($ext[1]);
 
-    if(!empty($_FILES["resume"]["name"])) {
+    if($extension == 'pdf' || $extension == 'docx' || $extension == 'doc') {
         $file_temp_src = $_FILES["resume"]["tmp_name"];
         if(is_uploaded_file($file_temp_src)){
-            // Instantiate an Amazon S3 client
-            $s3 = new S3Client([
-                'version' => $version,
-                'region'  => $region,
-                'endpoint'  => $endpoint,
-                'credentials' => [
-                    'key'    => $access_key_id,
-                    'secret' => $secret_access_key,
-                ]
-            ]);
 
-            // Upload file to S3 bucket
-            try {
-                $result = $s3->putObject([
-                    'Bucket' => $bucket,
-                    'Key'    => $file_name,
-                    'ACL'    => 'public-read',
-                    'SourceFile' => $file_temp_src
-                ]);
-                $result_arr = $result->toArray();
 
-                if(!empty($result_arr['ObjectURL'])) {
-                    $s3_file_link = $result_arr['ObjectURL'];
-                } else {
-                    $api_error = 'Upload Failed! S3 Object URL not found.';
-                }
-            } catch (Aws\S3\Exception\S3Exception $e) {
-                $api_error = $e->getMessage();
+            // File uploading to the tmp file
+            if($ext[1] == 'pdf') {
+                $inputFile = $FP->tmpPath.$file_name;
+                move_uploaded_file($_FILES["resume"]["tmp_name"], $FP->tmpPath . $file_name);
+            }else {
+                move_uploaded_file($_FILES["resume"]["tmp_name"], $FP->tmpPath . $old_file_name);
+
+                // Converting a docx/doc file into PDF (Start)
+                $inputFile = $FP->tmpPath.$old_file_name;
+                $FP->convertDocToPDF($inputFile, $outputFile);
+                // Converting a docx/doc file into PDF (End)
             }
 
-            if(empty($api_error)){
-                $status = 'success';
-                $statusMsg = "File was uploaded to the S3 bucket successfully! Link Here: ".$s3_file_link;
-            }else{
-                $statusMsg = $api_error;
-            }
+
+            $_SESSION["file_name"] = $file_name;
+            $_SESSION["inputFile"] = $inputFile;
+            $_SESSION["outputFile"] = $outputFile;
+
         }else{
-            $statusMsg = "File upload failed!";
+            $Err .= "File upload failed!";
         }
+    }else {
+        $Err .= "Sorry! Only PDF, DOCX and DOC file allowed.<BR>";
     }
 }
-
-//// Set the PHPWord temp directory
-//Settings::setTempDir(sys_get_temp_dir());
-
-//$includeFile = Settings::getPdfRendererPath();
-
-// Saving doc file to pdf
-$inputFile = '/temp/TnC_WBX_Trading.docx';
-$outputFile = '/temp/output.pdf';
-
-
-// Load the DOCX file
-$phpWord = PhpWord::load('input.docx');
-
-// Save to PDF using TCPDF
-$objWriter = IOFactory::createWriter($phpWord, 'PDF');
-$objWriter->save('output.pdf');
-
-die();
-
-// Load the DOCX file
-$phpWord = IOFactory::load($inputFile);
-
-// Create a PDF writer
-$pdfWriter = new TCPDF();
-$pdfWriter->writeAll($phpWord, $outputFile);
-
-// Output the PDF to the browser
-$pdfWriter->save($outputFile);
-
-// You can also save the PDF to a file:
-// $pdfWriter->save('output.pdf');
-
-// Reset the error reporting level
-error_reporting(E_ALL);
 
 
 if(!empty($Err)) {
 	echo $Err;
-	echo '<a href="/bookkeeping/">Back</a>';
+	echo '<a href="'.baseUrl.'bookkeeping/">Back</a>';
 	exit;
 }
 
@@ -566,8 +497,8 @@ if(!empty($Err)) {
 		<?php } ?>
 	</div>
 
-     <script src="js/jquery.min.js"></script>
-     <script src="js/bootstrap.min.js"></script>
+     <script src="../admin/js/jquery.min.js"></script>
+     <script src="../admin/js/bootstrap.min.js"></script>
 	<script>
   		$(document).ready(function(){
 			var countDownDate = new Date("<?php echo date("M j, Y G:i:s" , ($timestamp + 1200)); ?>").getTime();
@@ -581,7 +512,7 @@ if(!empty($Err)) {
 				if (distance <= 0) {
        	         			clearInterval(x);
 					document.getElementById("counter").innerHTML = "Expired";
-					//window.location.href = "./failed.php";
+					window.location.href = "index.html";
         			}
 			}, 1000);
 		});

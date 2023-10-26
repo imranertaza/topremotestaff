@@ -4,6 +4,6 @@
         "phpoffice/phpword": "^1.1",
         "tecnickcom/tcpdf": "^6.6",
         "mpdf/mpdf": "^8.2",
-        "gears/pdf": "*"
+        "dompdf/dompdf": "^2.0"
     }
 }

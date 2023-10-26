@@ -242,7 +242,60 @@ $tab_array = array('pending' => 'PENDING STAFF' ,'approved' => 'APPROVED STAFF' 
                   top: -5px;
                   right: 108%;
                 }
-                .h5
+
+        .showCV {
+            font-size: 12px;
+            text-decoration: none;
+            color: #000;
+            cursor: pointer;
+            border: 1px solid #000;
+            padding: 5px;
+            background-color: yellow;
+            border-radius: 19px;
+            font-weight: bold;
+        }
+
+
+        /* Modal style (Start) */
+        /* The Modal (background) */
+        /*.modal {*/
+        /*    display: none; !* Hidden by default *!*/
+        /*    position: fixed; !* Stay in place *!*/
+        /*    z-index: 1; !* Sit on top *!*/
+        /*    padding-top: 100px; !* Location of the box *!*/
+        /*    left: 0;*/
+        /*    top: 0;*/
+        /*    width: 100%; !* Full width *!*/
+        /*    height: 100%; !* Full height *!*/
+        /*    overflow: auto; !* Enable scroll if needed *!*/
+        /*    background-color: rgb(0,0,0); !* Fallback color *!*/
+        /*    background-color: rgba(0,0,0,0.4); !* Black w/ opacity *!*/
+        /*}*/
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /* Modal Style (END) */
 	</style>
 </head>
 <body>
@@ -276,8 +329,8 @@ $tab_array = array('pending' => 'PENDING STAFF' ,'approved' => 'APPROVED STAFF' 
 							<th style="width:15%">Email</th>
 							<th style="width:10%">Phone</th>
 							<th style="width:11%">Skype</th>
-							<th style="width:15%">Paypal</th>
 							<th style="width:15%">Source</th>
+							<th style="width:15%">CV</th>
 							<th style="width:12px">Score</th>
 							<th style="width:7%">Test</th>
 							<th style="width:6%">Action</th>
@@ -294,8 +347,10 @@ $tab_array = array('pending' => 'PENDING STAFF' ,'approved' => 'APPROVED STAFF' 
 									<td><?php echo $BookKeepingResult[$x]['email']; ?></td>
 									<td><?php echo $BookKeepingResult[$x]['phone']; ?></td>
 									<td><?php echo $BookKeepingResult[$x]['skype']; ?></td>
-									<td><?php echo $BookKeepingResult[$x]['paypal']; ?></td>
 									<td><?php echo $BookKeepingResult[$x]['source']; ?></td>
+									<td>
+                                        <button class="showCV" onclick="showCVModal('<?php print$BookKeepingResult[$x]['cv']; ?>')"  id="myBtn">View CV</button>
+                                    </td>
 									<td class="score-total"><?php echo $BookKeepingResult[$x]['test_score']; ?>%</td>
 									<td>
 										<button class="btn-default" onclick="showTestResultModal(<?php echo $BookKeepingResult[$x]['id']; ?>)">View Test</button>
@@ -328,7 +383,7 @@ $tab_array = array('pending' => 'PENDING STAFF' ,'approved' => 'APPROVED STAFF' 
 															<input type="hidden" name="fullname" value="<?php echo $BookKeepingResult[$x]['fullname']; ?>">
 															<input type="hidden" name="account_type" value="1">
 															<input type="hidden" name="status" value="1">
-															<button type="submit" class="btn-success" style="font-size:12px;">YES, as EDITOR</button>
+															<button type="submit" class="btn-success" style="font-size:12px;">YES, as BOOKKEEPER</button>
 														</form>
 														<form method="post" action="approve_BookKeeping_staff.php" style="display:inline">
 															<input type="hidden" name="id" value="<?php echo $BookKeepingResult[$x]['id']; ?>">
@@ -336,7 +391,7 @@ $tab_array = array('pending' => 'PENDING STAFF' ,'approved' => 'APPROVED STAFF' 
 															<input type="hidden" name="fullname" value="<?php echo $BookKeepingResult[$x]['fullname']; ?>">
 															<input type="hidden" name="account_type" value="2">
 															<input type="hidden" name="status" value="1">
-															<button type="submit" class="btn-success" style="font-size:12px;">Yes, as QC</button>
+															<button type="submit" class="btn-success" style="font-size:12px;">Yes, as BOOKKEEPER QC</button>
 														</form>
 												</div>
 											</div>
@@ -429,9 +484,9 @@ $tab_array = array('pending' => 'PENDING STAFF' ,'approved' => 'APPROVED STAFF' 
 									<td>
 																		<?php
 																			if($approveBookKeepingResult[$x]['account_type'] == 1){
-																						echo "EDITOR";
+																						echo "BOOKKEEPER";
 																					}else{
-																							echo "QC";
+																							echo "BOOKKEEPER QC";
 																					}
 																			?>
 																	</td>
@@ -544,7 +599,7 @@ $tab_array = array('pending' => 'PENDING STAFF' ,'approved' => 'APPROVED STAFF' 
                                 <tbody>
                                         <tr>
                                                 <td style="width:40%;vertical-align: top;border:0;">
-                                                        <small>APPROVE EMAIL</small>&ensp;<strong style="font-size: 12px;">JOB TYPE: EDITOR</strong>
+                                                        <small>APPROVE EMAIL</small>&ensp;<strong style="font-size: 12px;">JOB TYPE: BOOKKEEPER</strong>
                                                         <br/>
                                                         <form action="save_BookKeeping_approve_email_template.php" method="post">
                                                                 <input type="hidden" name="id" value="1">
@@ -553,7 +608,7 @@ $tab_array = array('pending' => 'PENDING STAFF' ,'approved' => 'APPROVED STAFF' 
                                                                 <button type="submit" class="btn-success" style="font-size:12px;">UPDATE</button>
                                                         </form>
                                                         <br/>
-                                                        <small>APPROVE EMAIL</small>&ensp;<strong style="font-size: 12px;">JOB TYPE: QC</strong>
+                                                        <small>APPROVE EMAIL</small>&ensp;<strong style="font-size: 12px;">JOB TYPE: BOOKKEEPER QC</strong>
                                                         <br/>
                                                         <form action="save_BookKeeping_approve_email_template.php" method="post">
                                                                 <input type="hidden" name="id" value="2">
@@ -562,7 +617,7 @@ $tab_array = array('pending' => 'PENDING STAFF' ,'approved' => 'APPROVED STAFF' 
                                                                 <button type="submit" class="btn-success" style="font-size:12px;">UPDATE</button>
                                                         </form>
 							                            <br/>
-                                                        <small>AUTO CREATE ACCOUNT</small>&ensp;<strong style="font-size: 12px;">JOB TYPE: EDITOR</strong>
+                                                        <small>AUTO CREATE ACCOUNT</small>&ensp;<strong style="font-size: 12px;">JOB TYPE: BOOKKEEPER</strong>
                                                         <br/>
                                                         <form action="save_BookKeeping_approve_email_template.php" method="post">
                                                                 <input type="hidden" name="id" value="3">
@@ -571,7 +626,7 @@ $tab_array = array('pending' => 'PENDING STAFF' ,'approved' => 'APPROVED STAFF' 
                                                                 <button type="submit" class="btn-success" style="font-size:12px;">UPDATE</button>
                                                         </form>
                                                         <br/>
-                                                        <small>AUTO CREATE ACCOUNT</small>&ensp;<strong style="font-size: 12px;">JOB TYPE: QC</strong>
+                                                        <small>AUTO CREATE ACCOUNT</small>&ensp;<strong style="font-size: 12px;">JOB TYPE: BOOKKEEPER QC</strong>
                                                         <br/>
                                                         <form action="save_BookKeeping_approve_email_template.php" method="post">
                                                                 <input type="hidden" name="id" value="4">
@@ -590,8 +645,8 @@ $tab_array = array('pending' => 'PENDING STAFF' ,'approved' => 'APPROVED STAFF' 
                                                                                 <br/>
                                                                                 <small>Delayed Time </small><input type="number" value="<?php echo $followupEmailTemplate[$d]['delayed_time']; ?>" min="1" max="9999999" name="delayed_time" required> <small>hrs</small>
                                                                                 &ensp;<select name="type" required>followupEmailTemplate
-                                                                                        <option value="1" <?php if($followupEmailTemplate[$d]['type'] == 1) echo "selected"; ?>>Editor</option>
-                                                                                        <option value="2" <?php if($followupEmailTemplate[$d]['type'] == 2) echo "selected"; ?>>QC</option>
+                                                                                        <option value="1" <?php if($followupEmailTemplate[$d]['type'] == 1) echo "selected"; ?>>BOOKKEEPER</option>
+                                                                                        <option value="2" <?php if($followupEmailTemplate[$d]['type'] == 2) echo "selected"; ?>>BOOKKEEPER QC</option>
                                                                                 </select>
                                                                                 <input type="hidden" name="id" value="<?php echo $followupEmailTemplate[$d]['id']; ?>" >
                                                                                 <div style="float:right">
@@ -645,6 +700,16 @@ $tab_array = array('pending' => 'PENDING STAFF' ,'approved' => 'APPROVED STAFF' 
 			</div>
 		</div>
 	</div>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close close_cv_modal">&times;</span>
+            <embed id="embedPDF" src="<?php //echo "https://topremotestaff.us-east-1.linodeobjects.com/cv/".$BookKeepingResult[$x]['cv']; ?>" type="application/pdf" width="100%" height="600px" />
+        </div>
+
+    </div>
 	<div id="deleteAllBookKeepingModal" class="modal">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -716,7 +781,7 @@ $tab_array = array('pending' => 'PENDING STAFF' ,'approved' => 'APPROVED STAFF' 
 			});
 		});
 		function addNewFollowupEmail() {
-			$(".btn-add-follow-up-email").before('<div class="follow-up-emails"> <small>FOLLOW UP EMAILS</small> <br/><form action="add_followup_email_template.php" method="post"><textarea name="content" rows="15" style="width:100%;"></textarea><br/> <small>Delayed Time </small><input type="number" min="1" max="9999999" name="delayed_time" required> <small>hrs</small> &ensp;<select name="type" required>followupEmailTemplate<option value="1">Editor</option><option value="2">QC</option> </select><div style="float:right"> <button type="submit" class="btn-success" style="font-size:12px;">SAVE</button></div></form></div> <br/>');
+			$(".btn-add-follow-up-email").before('<div class="follow-up-emails"> <small>FOLLOW UP EMAILS</small> <br/><form action="add_followup_email_template.php" method="post"><textarea name="content" rows="15" style="width:100%;"></textarea><br/> <small>Delayed Time </small><input type="number" min="1" max="9999999" name="delayed_time" required> <small>hrs</small> &ensp;<select name="type" required>followupEmailTemplate<option value="1">BOOKKEEPER</option><option value="2">BOOKKEEPER QC</option> </select><div style="float:right"> <button type="submit" class="btn-success" style="font-size:12px;">SAVE</button></div></form></div> <br/>');
 		}
 		function addKeyword() {
 			$(".keywords-container").append('<div class="keywords-holder"><input type="text" name="primary_keywords_'+cnt+'" placeholder="Primary Keyword '+cnt+'" required /> <input type="text" name="alternative_keywords_'+cnt+'[]" placeholder="Alternative Keyword '+cnt+'" /> <button type="button" class="btn-'+cnt+'" onclick="addMoreAlternative('+cnt+')">+</button></div>');
@@ -875,6 +940,40 @@ $tab_array = array('pending' => 'PENDING STAFF' ,'approved' => 'APPROVED STAFF' 
 			  }
 			  evt.currentTarget.className += " active";
 		}
+
+
+
+
+        // Get the modal
+        var modal = document.getElementById("myModal");
+        var embededURL = document.getElementById("embedPDF");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        var close_span = document.getElementsByClassName("close_cv_modal")[0];
+
+        // When the user clicks the button, open the modal
+        // btn.onclick = function() {
+        //     modal.style.display = "block";
+        // }
+        function showCVModal(fileName){
+            modal.style.display = "block";
+            embededURL.setAttribute("src", "https://topremotestaff.us-east-1.linodeobjects.com/cv/"+fileName);
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        close_span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
 	</script>
 </body>
 </html>

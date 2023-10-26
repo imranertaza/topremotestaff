@@ -13,4 +13,6 @@ function getBaseUrl()
     return $protocol.'://'.$hostName.$pathInfo['dirname'];
 }
 
+define("baseUrl", "http://topremotestaff.dn/");
+
 ?>

@@ -1,11 +1,15 @@
 <?php
-require './admin/email.php';
-require './admin/config/database.php';
-require './admin/controller/crud.php';
+require '../vendor/autoload.php';
+require '../admin/email.php';
+require '../admin/config/database.php';
+require '../admin/controller/crud.php';
+require 'admin/includes/file_upload_library.php';
+
 
 date_default_timezone_set('UTC');
 $email = new EmailSender();
 $crud = new Crud();
+$FP = new FileUpload();
 session_start();
 $numberOfQuestions = 0;
 $correctAnswers = 0;
@@ -72,6 +76,7 @@ $date = new DateTime();
 					'skype' => $_POST['skype'],
 					'paypal' => "",
 					'source' => (isset($_COOKIE["sourceURL"]) ? str_replace("'" , "\'" , trim($_COOKIE["sourceURL"])) : ""),
+					'cv' => $_SESSION["file_name"],
 					'test_score' => $score,
 					'status' => 0,
 					'account_type' => 0,
@@ -94,6 +99,23 @@ $date = new DateTime();
 						'date_created' => date("Y-m-d H:i:s" , $date->getTimestamp())
 					);
 					$db->query($crud->add('ts_bookkeeping_answers', $answer_data));
+
+
+
+					// Attached CV is uploading to storage server. (Start)
+					$file_name = $_SESSION["file_name"];
+					$outputFile = $_SESSION["outputFile"];
+					$uploadToStorage = $FP->uploadfiletostorage($file_name, $outputFile);
+					if($uploadToStorage == true){
+						$status = 'success';
+						$statusMsg = "File was uploaded to the S3 bucket successfully!";
+						unlink($_SESSION["outputFile"]);
+						unlink($_SESSION["inputFile"]);
+					}else{
+						$statusMsg = "failed";
+					}
+					// Attached CV is uploading to storage server. (End)
+
 					
 					header('Location: successful.php');
 				}
@@ -102,4 +124,5 @@ $date = new DateTime();
 		}	
 		
 	}
+
 ?>

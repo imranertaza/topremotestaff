@@ -19,7 +19,7 @@ class Crud{
 		return $query;
 
 	}
-	public function getData($tablename, $column , $value) {
+	public function getData($tablename, $column, $value) {
 
 		$allValue = "";
 		for($x = 0; $x < count($column) ;$x++){
@@ -34,8 +34,16 @@ class Crud{
 		$query = "SELECT * FROM $tablename WHERE $allValue";
 
 		return $query;
-
 	}
+
+    public function getSelectedData($selectedColumn, $tablename, $column, $value) {
+
+        $query = "SELECT `$selectedColumn` FROM `$tablename` WHERE `$column` = $value";
+
+        return $query;
+    }
+
+
 	public function getOrData($tablename, $column , $value) {
 
 		$allValue = "";
@@ -53,6 +61,7 @@ class Crud{
 		return $query;
 
 	}
+    
 	public function delete($tablename, $column , $value) {
 
 		$query = "DELETE FROM $tablename WHERE $column='$value'";

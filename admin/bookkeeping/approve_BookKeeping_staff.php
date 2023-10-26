@@ -2,13 +2,21 @@
 require 'email.php';
 require 'config/database.php';
 require 'controller/crud.php';
+require '../includes/file_upload_library.php';
 date_default_timezone_set('UTC');
 
 $email = new EmailSender();
 $crud = new Crud();
+$FileUpload = new FileUpload();
 
 	if($_POST['status'] == 0){
-		
+
+		// Deleting CV from the S3 storage server (Start)
+		$selectQuery = $crud->getSelectedData('cv', 'ts_bookkeeping_users', "id", $_POST['id']);
+		$getResult = $db->query($selectQuery);
+		$FileUpload->deletefilefromstorage($getResult->fetch_assoc()['cv']);
+		// Deleting CV from the S3 storage server (End)
+
 		$query = $crud->delete('ts_bookkeeping_users', "id", $_POST['id']);
 		$result = $db->query($query);
 		if($result){
@@ -20,7 +28,8 @@ $crud = new Crud();
 	
 			$queryReject = $crud->add('ts_bookkeeping_blacklist', $data);
 			$resultReject = $db->query($queryReject);
-			
+
+
 			if($resultReject){
 				$recipient = $_POST['email'];
 				$subject = "TopRemoteStaff Registration";
