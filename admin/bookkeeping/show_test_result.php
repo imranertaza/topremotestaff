@@ -7,7 +7,7 @@ $crud = new Crud();
 	if(!empty($_POST)){
 		$id = $_POST['id'];
 
-		$getProofReadTestResult = mysqli_query($db, "SELECT * FROM ts_bookkeeping_answers WHERE proofread_user_id='$id'");
+		$getProofReadTestResult = mysqli_query($db, "SELECT * FROM ts_bookkeeping_answers WHERE bookkeeping_user_id='$id'");
 		$proofReadTestResult = mysqli_fetch_all($getProofReadTestResult, MYSQLI_ASSOC);
 		if(mysqli_num_rows($getProofReadTestResult) > 0){ 
 			$allQuestions = json_decode($proofReadTestResult[0]['question_details']);

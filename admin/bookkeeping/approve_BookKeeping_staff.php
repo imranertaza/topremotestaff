@@ -1,4 +1,5 @@
 <?php
+require '../../vendor/autoload.php';
 require 'email.php';
 require 'config/database.php';
 require 'controller/crud.php';

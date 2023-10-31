@@ -8,6 +8,7 @@ use Aws\S3\S3Client;
 
 class FileUpload{
     public $tmpPath = __DIR__.'/../../tmp/';
+    public $folder = 'cv/';
 
     private $version = 'latest';
     private $region = 'us-east-1';
@@ -15,7 +16,7 @@ class FileUpload{
     private $secret_access_key = '30RDjdqaCHNfJzXoswDUcKUoO7JVIr4vSaZNblNU';
     private $endpoint = 'http://us-east-1.linodeobjects.com';
     private $bucket = 'topremotestaff';
-    private $folder = 'cv/';
+
     //public $objectKey = $folder . '/your-file-key-in-minio';
 
 

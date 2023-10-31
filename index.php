@@ -436,7 +436,7 @@ Program backend features and functions with PHP and MySQL database.
                                         </div>
                                     </div>
                                 </a>
-                                <a class="section-jobs__item" href="virtualassistant.html">
+                                <a class="section-jobs__item" href="virtualassistant/">
                                     <div class="section-jobs__icon">
                                         <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <rect opacity="0.5" x="2.99988" y="40" width="58" height="4" />

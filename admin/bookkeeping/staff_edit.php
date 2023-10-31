@@ -680,7 +680,7 @@ $tab_array = array('pending' => 'PENDING STAFF' ,'approved' => 'APPROVED STAFF' 
                                                 <td style="width:40%;vertical-align: top;border:0;">
                                                         <small>APPROVE EMAIL</small>&ensp;<strong style="font-size: 12px;">JOB TYPE: EDITOR</strong>
                                                         <br/>
-                                                        <form action="save_proofread_approve_email_template.php" method="post">
+                                                        <form action="save_BookKeeping_approve_email_template.php" method="post">
                                                                 <input type="hidden" name="id" value="1">
                                                                 <input type="hidden" name="type" value="1">
                                                                 <textarea name="content" rows="15" style="width:100%;"><?php if (array_key_exists(0, $approveEmailTemplate)) { echo htmlentities(urldecode($approveEmailTemplate[0]['content'])); } ?></textarea>
@@ -689,7 +689,7 @@ $tab_array = array('pending' => 'PENDING STAFF' ,'approved' => 'APPROVED STAFF' 
                                                         <br/>
                                                         <small>APPROVE EMAIL</small>&ensp;<strong style="font-size: 12px;">JOB TYPE: QC</strong>
                                                         <br/>
-                                                        <form action="save_proofread_approve_email_template.php" method="post">
+                                                        <form action="save_BookKeeping_approve_email_template.php" method="post">
                                                                 <input type="hidden" name="id" value="2">
                                                                 <input type="hidden" name="type" value="2">
                                                                 <textarea name="content" rows="15" style="width:100%;"><?php if (array_key_exists(1, $approveEmailTemplate)) { echo htmlentities(urldecode($approveEmailTemplate[1]['content'])); } ?></textarea>
@@ -698,7 +698,7 @@ $tab_array = array('pending' => 'PENDING STAFF' ,'approved' => 'APPROVED STAFF' 
 							<br/>
                                                                 <small>AUTO CREATE ACCOUNT</small>&ensp;<strong style="font-size: 12px;">JOB TYPE: EDITOR</strong>
                                                                 <br/>
-                                                                <form action="save_proofread_approve_email_template.php" method="post">
+                                                                <form action="save_BookKeeping_approve_email_template.php" method="post">
                                                                         <input type="hidden" name="id" value="3">
                                                                         <input type="hidden" name="type" value="3">
                                                                         <textarea name="content" rows="15" style="width:100%;"><?php if (array_key_exists(2, $approveEmailTemplate)) { echo htmlentities(urldecode($approveEmailTemplate[2]['content'])); } ?></textarea>
@@ -707,7 +707,7 @@ $tab_array = array('pending' => 'PENDING STAFF' ,'approved' => 'APPROVED STAFF' 
                                                                 <br/>
                                                                 <small>AUTO CREATE ACCOUNT</small>&ensp;<strong style="font-size: 12px;">JOB TYPE: QC</strong>
                                                                 <br/>
-                                                                <form action="save_proofread_approve_email_template.php" method="post">
+                                                                <form action="save_BookKeeping_approve_email_template.php" method="post">
                                                                         <input type="hidden" name="id" value="4">
                                                                         <input type="hidden" name="type" value="4">
                                                                         <textarea name="content" rows="15" style="width:100%;"><?php if (array_key_exists(3, $approveEmailTemplate)) { echo htmlentities(urldecode($approveEmailTemplate[3]['content'])); } ?></textarea>
@@ -719,7 +719,7 @@ $tab_array = array('pending' => 'PENDING STAFF' ,'approved' => 'APPROVED STAFF' 
                                                                 <div class="follow-up-emails">
                                                                         <small>FOLLOW UP EMAILS</small>
                                                                         <br/>
-                                                                        <form action="save_proofread_followup_email_template.php" method="post">
+                                                                        <form action="save_BookKeeping_followup_email_template.php" method="post">
                                                                                 <textarea name="content" rows="15" style="width:100%;"><?php echo htmlentities(urldecode($followupEmailTemplate[$d]['content'])); ?></textarea>
                                                                                 <br/>
                                                                                 <small>Delayed Time </small><input type="number" value="<?php echo $followupEmailTemplate[$d]['delayed_time']; ?>" min="1" max="9999999" name="delayed_time" required> <small>hrs</small>

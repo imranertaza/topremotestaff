@@ -17,6 +17,10 @@ $FileUpload = new FileUpload();
     }
     // Deleting CV from the S3 storage server (End)
 
+    //deleting question answer
+    $queryQu = $crud->deleteAll('ts_bookkeeping_answers', "bookkeeping_user_id", $_POST['staff_ids']);
+    $db->query($queryQu);
+    //deleting question answer
 
 	$query = $crud->deleteAll('ts_bookkeeping_users', "id", $_POST['staff_ids']);
 

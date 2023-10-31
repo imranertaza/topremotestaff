@@ -13,8 +13,16 @@ require '../includes/file_upload_library.php';
     $FileUpload->deletefilefromstorage($getResult->fetch_assoc()['cv']);
     // Deleting CV from the S3 storage server (End)
 
+
+    //deleting question answer
+    $queryQu = $crud->delete('ts_bookkeeping_answers', "bookkeeping_user_id", $_POST['id']);
+    $db->query($queryQu);
+    //deleting question answer
+
+
     $query = $crud->delete('ts_bookkeeping_users', "id", $_POST['id']);
 	$result = $db->query($query);
+
 	if($result){
 		if($_POST['check'] == 2){
 			header('Location: staff.php?tab=pending');

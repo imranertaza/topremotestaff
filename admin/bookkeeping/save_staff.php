@@ -77,7 +77,7 @@ $date = new DateTime();
 					
 					$insert_id = $db->insert_id;
 					$answer_data = array(
-						'proofread_user_id' => $insert_id,
+						'bookkeeping_user_id' => $insert_id,
 						'question_details'  => json_encode($question),
 						'answer_details'    => json_encode($answers),
 						//'date_created'      => date("Y-m-d H:i:s")

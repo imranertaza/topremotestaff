@@ -1111,6 +1111,9 @@ margin-bottom: 18px;
 .col-xl-6{
 flex: 0 1 calc(100% / 2 - 15px);
 }
+.col-xl-12{
+    flex: 0 1 calc(100%);
+}
 @media (max-width: 992px) {
 .col-xl-6{
 flex: 0 1 calc(100% / 1 - 0px);
