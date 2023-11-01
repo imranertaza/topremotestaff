@@ -30,7 +30,6 @@
                     <ul class="menu__list">
                         <li class="menu__item"><a class="menu__link menu__link--active menu__nav" data-nav="home"
                                                   href="#home">Home</a></li>
-                        <!-- <li class="menu__item"><a class="menu__link menu__nav" data-nav="jobs_we_offer" href="#jobs_we_offer">Jobs We Offer</a></li> -->
                         <li class="menu__item"><a class="menu__link menu__nav" data-nav="our_values" href="#our_values">Our
                             Values</a></li>
                         <li class="menu__item"><a class="menu__link menu__nav" data-nav="faq" href="#faq">FAQ</a></li>
@@ -214,8 +213,8 @@
                         <h2 class="section__h2 section__h2--apply">Apply to be <span>Virtual Assistant</span></h2>
                         <p class="section__text">Fill out this form, complete a 10-minute test, and get feedback within
                             three business days.</p>
-                        <!--                                <form name="thisForm" class="form" method="post" action="exam.php" enctype="multipart/form-data">-->
-                        <form name="thisForm" class="form" method="post" action="typingtest.php" enctype="multipart/form-data" >
+                        <form name="thisForm" class="form" method="post" action="typingtest.php"
+                              enctype="multipart/form-data">
                             <div class="modal__form-wrap">
                                 <input type="text" class="modal__input" name="fullname"
                                        placeholder="Full Name (Required)" required="">
@@ -231,36 +230,29 @@
                                         <label for="resume" class="btn-up modal__input file_clip" aria-hidden="true">Attach
                                             CV </label>
                                         <span id="attachedfile" class="file_name" style="display: none;">
-                                                    <img src="img/file-ic.svg">
-                                                    <span id="fileName">File 1.[bin]</span>
-                                                    <a id="deleteAttached"><img src="img/delete-ic.svg"></a>
-                                                    <span class="invaliedFileName"></span>
-                                                </span>
+                                            <img src="img/file-ic.svg">
+                                            <span id="fileName">File 1.[bin]</span>
+                                            <a id="deleteAttached"><img src="img/delete-ic.svg"></a>
+                                            <span class="invaliedFileName"></span>
+                                        </span>
                                     </div>
-                                    <!--                                            <div class="col-xl-6">-->
-                                    <!--                                                <input type="file" id="speed" class="sr-only" aria-label="speed">-->
-                                    <!--                                                <label for="speed" class="btn-up modal__input file_clip" aria-hidden="true"> Typing Test </label>-->
-                                    <!--                                                 <span class="file_name"><img src="img/file-ic.svg">File 1.[bin] <a href="#"><img src="img/delete-ic.svg"></a></span>-->
-                                    <!--                                            </div> accept="audio/mp3,video/mp4,video/x-m4v,video/*" -->
-                                    <!--                                            </div> accept="audio/mp3,video/mp4,video/x-m4v,video/*" -->
-
                                 </div>
 
                                 <div class="row">
                                     <div class="col-xl-12 file_clip">
-                                        <input type="file" id="audioVideo" name="audioVideo" class="sr-only" aria-label="audioVideo"  >
+                                        <input type="file" id="audioVideo" name="audioVideo" class="sr-only"
+                                               aria-label="audioVideo">
                                         <label for="audioVideo" class="btn-up btn_voice modal__input"
                                                aria-hidden="true">Attach Voice Recording (Min. 30 Seconds)</label>
 
                                         <span id="attachedaudio" class="file_name_audio" style="display: none;">
-                                                    <img src="img/file-ic.svg" style="width:20px;">
-                                                    <span id="fileNameAudio">File 1.[bin]</span>
-                                                    <a id="deleteAttachedAudio"><img src="img/delete-ic.svg"></a>
-                                                    <span class="invaliedFileName"></span>
-                                                </span>
+                                            <img src="img/file-ic.svg" style="width:20px;">
+                                            <span id="fileNameAudio">File 1.[bin]</span>
+                                            <a id="deleteAttachedAudio"><img src="img/delete-ic.svg"></a>
+                                            <span class="invaliedFileName"></span>
+                                        </span>
                                     </div>
                                 </div>
-<!--                                <span class="file_name"><img src="img/meda-ic.svg">File 1.[bin] <a href="#"><img src="img/delete-ic.svg"></a></span>-->
                             </div>
                             <button type="button" id="submitBtn"
                                     class="thisFormBtn button__btn button__btn--modal section-apply__form-submit">Apply
@@ -801,7 +793,7 @@
         const lastDot = justFileName.lastIndexOf('.');
         var ext = justFileName.substring(lastDot + 1);
         ext = ext.toLowerCase();
-        var exArray = ['mp3','wav','aac','flac','ogg','wma','aiff','m4a','ac3','mp4','avi','mkv','wmv','mov','flv','3gp','mpeg','mpg','webm','ogv','rm','asf'];
+        var exArray = ['mp3', 'wav', 'aac', 'flac', 'ogg', 'wma', 'aiff', 'm4a', 'ac3', 'mp4', 'avi', 'mkv', 'wmv', 'mov', 'flv', '3gp', 'mpeg', 'mpg', 'webm', 'ogv', 'rm', 'asf'];
 
         if (inArray(ext, exArray) == false) {
             err = 1;
@@ -834,11 +826,12 @@
     // inArray function to check if any data exist in a array (Start)
     function inArray(needle, haystack) {
         var length = haystack.length;
-        for(var i = 0; i < length; i++) {
-            if(haystack[i] == needle) return true;
+        for (var i = 0; i < length; i++) {
+            if (haystack[i] == needle) return true;
         }
         return false;
     }
+
     // inArray function to check if any data exist in a array (End)
 
     //Submit form if valid file is set (Start)

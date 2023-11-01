@@ -6,6 +6,7 @@
 }
 body {
     background-color: #c80000;
+    background-color: #c80000 !important;
 }
 .container {
     width: 120vmin;

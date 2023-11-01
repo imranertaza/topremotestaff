@@ -48,7 +48,7 @@
 </head>
 <body>
 	<center>
-		<a href="#"><img src="/img/logo.svg" style="margin-top:2rem;"></a>
+		<a href="http://topremotestaff.dn/proofreading/"><img src="/img/logo.svg" style="margin-top:2rem;"></a>
 		<h3 style="font-family: 'Product Sans Black';">Application Successful!</h3>
 		<p style="font-family: 'Product Sans Regular';">We will contact you in the next 1-3 business days.<br/>Look out for an email with the subject "TopRemoteStaff Job Application Successful" in your inbox.<br/>It may go to your spam folder.</p>
 	</center>

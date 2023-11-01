@@ -21,7 +21,6 @@ require '../admin/config/url.php';
 
   gtag('config', 'AW-1001506790');
 </script>
-<!-- Event snippet for Submit lead form conversion page -->
 <script>
   gtag('event', 'conversion', {'send_to': 'AW-1001506790/7zX6CI_wk98BEOaPx90D'});
 </script>

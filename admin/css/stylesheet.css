@@ -1,0 +1,273 @@
+body {
+    padding: 0rem 2rem 1rem 2rem;
+    font-family: 'Open Sans', sans-serif;
+}
+
+table {
+    width: 100%;
+}
+
+table thead {
+    background-color: #ccc;
+}
+
+table tr th,
+table tr td {
+    border: 1px solid #000;
+    text-align: left;
+    padding: 5px;
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #db3145;
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    border: 0;
+    appearance: none;
+}
+
+#choices .row input[type=text] {
+    width: 94%;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #28a745;
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    border: 0;
+    appearance: none;
+}
+
+.btn-default {
+    color: #000;
+    background-color: #aaa;
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    border: 0;
+    appearance: none;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 30px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    margin-bottom: 50px;
+    padding: 0;
+    border: 1px solid #888;
+    width: 30%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+}
+
+.margin-top-5px {
+    margin-top: 5px;
+}
+
+.modal-header {
+    padding: 10px 16px;
+    border-bottom: 1px solid #000;
+}
+
+.modal-body {
+    padding: 10px 16px;
+}
+
+@-webkit-keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+@keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+.close {
+    color: #000;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: relative;
+    top: -5px;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+.tab input,
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+.tab input:hover,
+.tab button:hover {
+    background-color: #ddd;
+}
+
+.tab input.active,
+.tab button.active {
+    background-color: #ccc;
+}
+
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.show {
+    display: block;
+}
+
+.m-0 {
+    margin: 0;
+}
+
+.p-1 {
+    padding: 1rem;
+}
+
+.tooltip .tooltiptext span {
+    color: #fff;
+    font-size: 12px;
+    background-color: #db3145;
+    padding: 3px 8px;
+    margin-left: 3px;
+    margin-right: 3px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-top: 3px;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    max-width: 600px;
+    width: max-content;
+    background-color: #fff;
+    color: #fff;
+    border-radius: 6px;
+    padding: 10px;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    -webkit-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.4);
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.tooltip .tooltiptext {
+    top: -5px;
+    right: 108%;
+}
+
+/* Style for CV */
+.showCV {
+    font-size: 12px;
+    text-decoration: none;
+    color: #000;
+    cursor: pointer;
+    border: 1px solid #000;
+    padding: 5px;
+    background-color: yellow;
+    border-radius: 19px;
+    font-weight: bold;
+}
+/* Style for CV */
+
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+/* Modal Style (END) */
+
+
+
