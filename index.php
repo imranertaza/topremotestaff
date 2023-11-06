@@ -192,7 +192,7 @@ TopRemoteStaff: An exclusive network of the freelance experts worldwide. -   boo
                                         </div>
                                     </div>
                                 </a>
-                                <a class="section-jobs__item" href="graphics-touchup.html">
+                                <a class="section-jobs__item" href="graphics">
                                     <div class="section-jobs__icon">
                                         <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M5.91597 9.41176H0.537815C0.241071 9.41176 0 9.17069 0 8.87394V3.49579C0 3.19905 0.241071 2.95798 0.537815 2.95798H5.91597C6.21271 2.95798 6.45378 3.19905 6.45378 3.49579V8.87394C6.45378 9.17069 6.21271 9.41176 5.91597 9.41176ZM1.07563 8.33613H5.37815V4.03361H1.07563V8.33613Z" />

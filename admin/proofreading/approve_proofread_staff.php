@@ -24,9 +24,9 @@ $crud = new Crud();
 			if($resultReject){
 				$recipient = $_POST['email'];
 				$subject = "TopRemoteStaff Registration";
-				$bodyHtml = "<p>Dear ".$_POST['fullname'].",<br/><br/>Thank you for your application,  unfortunately  we can not accept your application at this moment.<br/><br/>Yours Sincerely,<br/><br/>Management<br/>TopRemoteStaff.com</p>";
+				$bodyHtml = "<p>Dear ".urldecode($_POST['fullname']).",<br/><br/>Thank you for your application,  unfortunately  we can not accept your application at this moment.<br/><br/>Yours Sincerely,<br/><br/>Management<br/>TopRemoteStaff.com</p>";
 				$email->send($recipient, $subject, $bodyHtml);
-				header('Location: staff_edit.php');
+				header('Location: staff.php');
 			}
 		}
 		
@@ -37,7 +37,7 @@ $crud = new Crud();
 		$getTranscriberEmailContent = mysqli_query($db, "SELECT * FROM ts_proofread_approve_email_template WHERE type='1'");
 		$transcriberResult = mysqli_fetch_all($getTranscriberEmailContent, MYSQLI_ASSOC);
 
-                $transcriberContent = str_replace("%24name",$_POST['fullname'],$transcriberResult[0]['content']);
+                $transcriberContent = str_replace("%24name",urldecode($_POST['fullname']),$transcriberResult[0]['content']);
                 $transcriberContent = str_replace("%24email",$_POST['email'],$transcriberContent);
                 $transcriberContent = htmlentities(urldecode($transcriberContent));
 
@@ -45,7 +45,7 @@ $crud = new Crud();
 		$getProofreaderEmailContent = mysqli_query($db, "SELECT * FROM ts_proofread_approve_email_template WHERE type='2'");
 		$proofreaderResult = mysqli_fetch_all($getProofreaderEmailContent, MYSQLI_ASSOC);
 
-                $proofreaderContent = str_replace("%24name",$_POST['fullname'],$proofreaderResult[0]['content']);
+                $proofreaderContent = str_replace("%24name",urldecode($_POST['fullname']),$proofreaderResult[0]['content']);
                 $proofreaderContent = str_replace("%24email",$_POST['email'],$proofreaderContent);
                 $proofreaderContent = htmlentities(urldecode($proofreaderContent));
 		

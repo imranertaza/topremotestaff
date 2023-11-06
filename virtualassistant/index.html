@@ -49,7 +49,7 @@
             <div class="container">
                 <div class="section-work__body">
                     <div class="section-work__content section-work__content--page2">
-                        <h1 class="section__h1">Work from home </br> Earn Money with </br><b>English Proofreading
+                        <h1 class="section__h1">Work from home </br> Earn Money with </br><b>Virtual Assistant
                             Jobs</b></h1>
                         <div class="section-work__button button">
                             <a class="button__btn menu__nav" data-nav='apply_now' href="#apply_now">Apply Now</a>
@@ -218,8 +218,9 @@
                             <div class="modal__form-wrap">
                                 <input type="text" class="modal__input" name="fullname"
                                        placeholder="Full Name (Required)" required="">
-                                <input type="text" class="modal__input" name="email" placeholder="Email (Required)"
+                                <input type="text" class="modal__input" name="email" id="emailField" placeholder="Email (Required)"
                                        required="">
+                                <span id="emailErrorMess" class="file_name invaliedFileName" style="display: none;">Invalid Email </span>
                                 <input type="text" class="modal__input" name="phone" placeholder="Phone (Optional)">
                                 <input type="text" class="modal__input" name="skype" placeholder="Skype (Optional)">
 
@@ -228,7 +229,7 @@
                                         <input type="file" name="resume" id="resume" class="sr-only"
                                                aria-label="Resume">
                                         <label for="resume" class="btn-up modal__input file_clip" aria-hidden="true">Attach
-                                            CV </label>
+                                            CV (Required)</label>
                                         <span id="attachedfile" class="file_name" style="display: none;">
                                             <img src="img/file-ic.svg">
                                             <span id="fileName">File 1.[bin]</span>
@@ -740,7 +741,7 @@
     gtag('config', 'AW-1001506790');
 
 
-    var err = 0;
+    var err;
 
     // Attached file show and delete functions (Start)
     // var invaliedFileName = document.querySelector(".invaliedFileName");
@@ -782,7 +783,6 @@
 
     // var CV_deleteAttachedFile = document.getElementById("deleteAttached");
     // Attached file show and delete functions (End)
-
 
     //attached audio video file
     var audioVideo = document.getElementById("audioVideo");
@@ -839,11 +839,46 @@
     var thisForm = document.getElementsByName('thisForm');
 
     submitBtn.onclick = function (e) {
-        if (err == 0) {
+        if ((err == 0) && (err_email == 0)) {
             thisForm[0].submit();
         }
     }
+
+
+
     //Submit form if valid file is set (End)
+
+    //Get email field
+    let err_email;
+    let emailField = document.getElementById("emailField");
+    let emailErrorMessage = document.getElementById("emailErrorMess");
+
+    function validateEmail(email) {
+        const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+        return emailRegex.test(email);
+    }
+
+    emailField.addEventListener("focusout",(e)=>{
+        if(validateEmail(e.target.value)){
+            err_email = 0;
+            emailErrorMessage.style.display="none";
+        }else if(e.target.value===""){
+            err_email = 1;
+            emailErrorMessage.style.display="none";
+        }else{
+            err_email=1;
+            emailErrorMessage.style.display="flex";
+        }
+    })
+
+    emailField.addEventListener("focus",(e)=>{
+        emailErrorMess.style.display="none";
+    })
+
+    window.onload = (event) => {
+        emailField.value="";
+        resume.value="";
+    };
 
 </script>
 
@@ -855,6 +890,7 @@
 
     .invaliedFileName {
         color: red;
+        margin-bottom: 10px
     }
 
     .thisFormBtn {

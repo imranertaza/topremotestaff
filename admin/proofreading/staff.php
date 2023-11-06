@@ -103,7 +103,7 @@ $tab_array = array('pending' => 'PENDING STAFF', 'approved' => 'APPROVED STAFF',
                     <?php if (mysqli_num_rows($getProofReadData) > 0) { ?>
                         <?php for ($x = 0; $x < count($proofReadResult); $x++) { ?>
                             <tr>
-                                <td><?php echo $proofReadResult[$x]['fullname']; ?></td>
+                                <td><?php echo urldecode($proofReadResult[$x]['fullname']); ?></td>
                                 <td><?php echo $proofReadResult[$x]['email']; ?></td>
                                 <td><?php echo $proofReadResult[$x]['phone']; ?></td>
                                 <td><?php echo $proofReadResult[$x]['skype']; ?></td>
@@ -287,7 +287,7 @@ $tab_array = array('pending' => 'PENDING STAFF', 'approved' => 'APPROVED STAFF',
                     <?php if (!empty($approveProofReadResult)) { ?>
                         <?php for ($x = 0; $x < count($approveProofReadResult); $x++) { ?>
                             <tr>
-                                <td><?php echo $approveProofReadResult[$x]['fullname']; ?></td>
+                                <td><?php echo urldecode($approveProofReadResult[$x]['fullname']); ?></td>
                                 <td><?php echo $approveProofReadResult[$x]['email']; ?></td>
                                 <td><?php echo $approveProofReadResult[$x]['phone']; ?></td>
                                 <td><?php echo $approveProofReadResult[$x]['skype']; ?></td>

@@ -65,7 +65,7 @@ $date = new DateTime();
 			}else{
 
 				$data = array(
-					'fullname' => $_POST['fullname'],
+					'fullname' => urlencode($_POST['fullname']),
 					'email' => $_POST['email'],
 					'phone' => $_POST['phone'],
 					'skype' => $_POST['skype'],

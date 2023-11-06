@@ -103,7 +103,7 @@ $tab_array = array('pending' => 'PENDING STAFF', 'approved' => 'APPROVED STAFF',
                     <?php if (mysqli_num_rows($getvirtualassistantData) > 0) { ?>
                         <?php for ($x = 0; $x < count($virtualassistantResult); $x++) { ?>
                             <tr>
-                                <td><?php echo $virtualassistantResult[$x]['fullname']; ?></td>
+                                <td><?php echo urldecode($virtualassistantResult[$x]['fullname']); ?></td>
                                 <td><?php echo $virtualassistantResult[$x]['email']; ?></td>
                                 <td><?php echo $virtualassistantResult[$x]['phone']; ?></td>
                                 <td><?php echo $virtualassistantResult[$x]['skype']; ?></td>
@@ -299,7 +299,7 @@ $tab_array = array('pending' => 'PENDING STAFF', 'approved' => 'APPROVED STAFF',
                     <?php if (!empty($approvevirtualassistantResult)) { ?>
                         <?php for ($x = 0; $x < count($approvevirtualassistantResult); $x++) { ?>
                             <tr>
-                                <td><?php echo $approvevirtualassistantResult[$x]['fullname']; ?></td>
+                                <td><?php echo urldecode($approvevirtualassistantResult[$x]['fullname']); ?></td>
                                 <td><?php echo $approvevirtualassistantResult[$x]['email']; ?></td>
                                 <td><?php echo $approvevirtualassistantResult[$x]['phone']; ?></td>
                                 <td><?php echo $approvevirtualassistantResult[$x]['skype']; ?></td>

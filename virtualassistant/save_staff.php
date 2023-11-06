@@ -72,7 +72,7 @@ $date = new DateTime();
 			}else{
 
 				$data = array(
-					'fullname' => $_SESSION['fullname'],
+					'fullname' => urlencode($_SESSION['fullname']),
 					'email' => $_SESSION['email'],
 					'phone' => $_SESSION['phone'],
 					'skype' => $_SESSION['skype'],

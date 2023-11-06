@@ -91,7 +91,7 @@ $tab_array = array('pending' => 'PENDING STAFF' ,'approved' => 'APPROVED STAFF' 
 						<?php if(mysqli_num_rows($getBookKeepingData) > 0){ ?>
 							<?php for($x = 0; $x < count($BookKeepingResult); $x++){ ?>
 								<tr>	
-									<td><?php echo $BookKeepingResult[$x]['fullname']; ?></td>
+									<td><?php echo urldecode($BookKeepingResult[$x]['fullname']); ?></td>
 									<td><?php echo $BookKeepingResult[$x]['email']; ?></td>
 									<td><?php echo $BookKeepingResult[$x]['phone']; ?></td>
 									<td><?php echo $BookKeepingResult[$x]['skype']; ?></td>
@@ -224,7 +224,7 @@ $tab_array = array('pending' => 'PENDING STAFF' ,'approved' => 'APPROVED STAFF' 
 						<?php if(!empty($approveBookKeepingResult)){ ?>
 							<?php for($x = 0; $x < count($approveBookKeepingResult); $x++){ ?>
 								<tr>	
-									<td><?php echo $approveBookKeepingResult[$x]['fullname']; ?></td>
+									<td><?php echo urldecode($approveBookKeepingResult[$x]['fullname']); ?></td>
 									<td><?php echo $approveBookKeepingResult[$x]['email']; ?></td>
 									<td><?php echo $approveBookKeepingResult[$x]['phone']; ?></td>
 									<td><?php echo $approveBookKeepingResult[$x]['skype']; ?></td>

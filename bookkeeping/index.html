@@ -216,14 +216,15 @@
                             <div class="modal__form-wrap">
                                 <input type="text" class="modal__input" name="fullname"
                                        placeholder="Full Name (Required)" required="">
-                                <input type="text" class="modal__input" name="email" placeholder="Email (Required)"
+                                <input type="text" class="modal__input" name="email" id="emailField" placeholder="Email (Required)"
                                        required="">
+                                <span id="emailErrorMess" class="file_name invaliedFileName" style="display: none;">Invalid Email</span>
                                 <input type="text" class="modal__input" name="phone" placeholder="Phone (Optional)">
                                 <input type="text" class="modal__input" name="skype" placeholder="Skype (Optional)">
                                 <div class="col-12 fw-input-file">
                                     <input type="file" id="resume" class="sr-only" name="resume" aria-label="Resume">
                                     <label for="resume" class="btn-up modal__input file_clip" aria-hidden="true">Attach
-                                        CV</label>
+                                        CV (Required)</label>
                                     <span id="attachedfile" class="file_name" style="display: none;">
                                             <img src="img/file-ic.svg">
                                             <span id="fileName">File 1.[bin]</span>
@@ -698,7 +699,7 @@
     gtag('config', 'AW-1001506790');
 
 
-    var err = 0;
+    var err;
 
     // Attached file show and delete functions (Start)
     // var invaliedFileName = document.querySelector(".invaliedFileName");
@@ -747,11 +748,48 @@
     var bookingForm = document.getElementsByName('bookingForm');
 
     submitBtn.onclick = function (e) {
-        if (err == 0) {
+        if ((err == 0) && (err_email == 0)) {
             bookingForm[0].submit();
         }
     }
     //Submit form if valid file is set (End)
+
+
+
+    // Email Validation function (Start)
+    //Get email field
+    let err_email;
+    let emailField = document.getElementById("emailField");
+    let emailErrorMess = document.getElementById("emailErrorMess");
+
+    function validateEmail(email) {
+        const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+        return emailRegex.test(email);
+    }
+
+    emailField.addEventListener("focusout",(e)=>{
+        if(validateEmail(e.target.value)){
+            err_email = 0;
+            emailErrorMess.style.display="none";
+        }else if(e.target.value===""){
+            err_email = 1;
+            emailErrorMess.style.display="none";
+        }else{
+            err_email=1;
+            emailErrorMess.style.display="flex";
+        }
+    })
+
+    emailField.addEventListener("focus",(e)=>{
+        emailErrorMess.style.display="none";
+    })
+
+    window.onload = (event) => {
+        emailField.value="";
+        resume.value="";
+    };
+
+    // Email Validation function (End)
 
 </script>
 <style>

@@ -3,8 +3,8 @@ require '../vendor/autoload.php';
 require '../admin/config/url.php';
 ini_set('display_errors', TRUE);
 date_default_timezone_set('UTC');
-require 'admin/proofreading/config/database.php';
-require 'admin/proofreading/controller/crud.php';
+require '../admin/config/database.php';
+require '../admin/controller/crud.php';
 require '../admin/includes/file_upload_library.php';
 
 // Reset the error reporting level
@@ -16,7 +16,7 @@ $FP = new FileUpload();
 session_start();
 
 
-$getQuestions = mysqli_query($db, "SELECT * FROM ts_bookkeeping_questions WHERE status='1' ORDER BY RAND() DESC LIMIT 20");
+$getQuestions = mysqli_query($db, "SELECT * FROM ts_graphics_questions WHERE status='1' ORDER BY RAND() DESC LIMIT 20");
 $questionResult = mysqli_fetch_all($getQuestions, MYSQLI_ASSOC);
 
 $date = new DateTime();
@@ -51,7 +51,7 @@ if (empty($_POST["email"])) {
     // check if e-mail address is well-formed
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 		$Err .= "Invalid email format<BR>";
-	} else if($db->query($crud->getOrData('ts_bookkeeping_users', array("email"), array($email)))->num_rows > 0) {
+	} else if($db->query($crud->getOrData('ts_graphics_users', array("email"), array($email)))->num_rows > 0) {
 		$Err .= "Email existed<BR>";
 	}
 }
@@ -137,7 +137,7 @@ if(!empty($Err)) {
 						<div class="choices">
 							<?php
 								$id = $questionResult[$q]['id'];
-								$getChoices = mysqli_query($db, "SELECT * FROM ts_bookkeeping_question_choices WHERE question_id='$id'");
+								$getChoices = mysqli_query($db, "SELECT * FROM ts_graphics_question_choices WHERE question_id='$id'");
 								$choicsResult = mysqli_fetch_all($getChoices, MYSQLI_ASSOC);
 								
 								if(mysqli_num_rows($getChoices) > 0){
