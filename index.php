@@ -235,7 +235,7 @@ TopRemoteStaff: An exclusive network of the freelance experts worldwide. -   boo
                                         </div>
                                     </div>
                                 </a>
-                                <a class="section-jobs__item" href="html-css.html">
+                                <a class="section-jobs__item" href="frontendprogrammer">
                                     <div class="section-jobs__icon">
                                         <svg width="79" height="64" viewBox="0 0 79 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path opacity="0.5" d="M77.2923 6.40002C77.2923 5.0073 76.7391 3.67161 75.7543 2.68681C74.7695 1.702 73.4338 1.14874 72.041 1.14874H36.7669L30.1122 15.2176H77.2923V6.40002Z" />
@@ -776,5 +776,6 @@ Program backend features and functions with PHP and MySQL database.
                 }
             }
         </script>
+        <script type="text/javascript" src="js/refercookie.js"></script>
     </body>
 </html>
