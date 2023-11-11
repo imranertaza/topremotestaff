@@ -359,7 +359,7 @@ TopRemoteStaff: An exclusive network of the freelance experts worldwide. -   boo
                                         </div>
                                     </div>
                                 </a>
-                                <a class="section-jobs__item" href="php-mysql-programmer.html">
+                                <a class="section-jobs__item" href="backendprogrammer">
                                     <div class="section-jobs__icon">
                                         <svg width="62" height="54" viewBox="0 0 62 54" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M26.1129 17.5H41.2674C41.4 17.5 41.5272 17.4473 41.621 17.3536C41.7147 17.2598 41.7674 17.1326 41.7674 17C41.7674 16.8674 41.7147 16.7402 41.621 16.6464C41.5272 16.5527 41.4 16.5 41.2674 16.5H26.1129C25.9803 16.5 25.8531 16.5527 25.7594 16.6464C25.6656 16.7402 25.6129 16.8674 25.6129 17C25.6129 17.1326 25.6656 17.2598 25.7594 17.3536C25.8531 17.4473 25.9803 17.5 26.1129 17.5Z" />
