@@ -14,7 +14,7 @@ $crud = new Crud();
 		$result = $db->query($query);
 		
 		if($result){
-			header('Location: staff.php?tab=email');
+			header('Location: staff.php?tab=email_template');
 			
 		}
 

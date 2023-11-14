@@ -260,7 +260,7 @@ TopRemoteStaff: An exclusive network of the freelance experts worldwide. -   boo
                                         </div>
                                     </div>
                                 </a>
-                                <a class="section-jobs__item" href="livechat.html">
+                                <a class="section-jobs__item" href="livechat">
                                     <div class="section-jobs__icon">
                                         <svg width="64" height="62" viewBox="0 0 64 62" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M59 28H57V55H59V28Z" />

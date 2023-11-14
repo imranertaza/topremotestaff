@@ -8,7 +8,7 @@ $crud = new Crud();
 	$query2 = $crud->delete('ts_graphics_question_choices', "question_id", $_POST['question_id']);
 	$result = $db->query($query1);
 	if($result){
-		header('Location: staff.php?tab=proofread');	
+		header('Location: staff.php?tab=mc_questions');
 	}
 		
 ?>
