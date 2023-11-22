@@ -241,7 +241,7 @@
                                 <div class="row">
                                     <div class="col-xl-12 file_clip">
                                         <input type="file" id="audioVideo" name="audioVideo" class="sr-only"
-                                               aria-label="audioVideo">
+                                               aria-label="audioVideo" required>
                                         <label for="audioVideo" class="btn-up btn_voice modal__input"
                                                aria-hidden="true">Attach Voice Recording (Min. 30 Seconds)</label>
 
@@ -741,7 +741,7 @@
 
 
     var err;
-
+    let video_err;
     // Attached file show and delete functions (Start)
     // var invaliedFileName = document.querySelector(".invaliedFileName");
     var resume = document.getElementById("resume");
@@ -795,10 +795,10 @@
         var exArray = ['mp3', 'wav', 'aac', 'flac', 'ogg', 'wma', 'aiff', 'm4a', 'ac3', 'mp4', 'avi', 'mkv', 'wmv', 'mov', 'flv', '3gp', 'mpeg', 'mpg', 'webm', 'ogv', 'rm', 'asf'];
 
         if (inArray(ext, exArray) == false) {
-            err = 1;
+            video_err = 1;
             audio_file_span.innerHTML = '<span class="invaliedFileName">Invalid file</span>';
         } else {
-            err = 0;
+            video_err = 0;
             audio_file_span.innerHTML = '<img src="img/file-ic.svg" style="width:20px;">' +
                 '<span id="fileNameAudio"></span>' +
                 '<a id="deleteAttachedAudio"><img src="img/delete-ic.svg"></a>';
@@ -807,7 +807,7 @@
 
             var audio_deleteAttachedFile = document.getElementById("deleteAttachedAudio");
             audio_deleteAttachedFile.onclick = function (e) {
-                err = 1;
+                video_err = 1;
                 audioVideo.value = '';
                 if (audio_file_span.style.display === 'flex') {
                     audio_file_span.style.display = 'none';
@@ -838,7 +838,7 @@
     var thisForm = document.getElementsByName('thisForm');
 
     submitBtn.onclick = function (e) {
-        if ((err == 0) && (err_email == 0)) {
+        if ((err === 0) && (err_email === 0) && video_err === 0) {
             thisForm[0].submit();
         }
     }
@@ -877,6 +877,9 @@
     window.onload = (event) => {
         emailField.value="";
         resume.value="";
+        // localStorage.removeItem("timeleft");
+        setreferrer_cookie();
+        clear_localStorage();
     };
 
 </script>
@@ -902,6 +905,6 @@
         color: #000000 !important;
     }
 </style>
-<script type="text/javascript" src="js/refercookie.js"></script>
+<script type="text/javascript" src="../js/refercookie.js"></script>
 </body>
 </html>

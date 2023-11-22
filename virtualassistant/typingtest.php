@@ -30,9 +30,9 @@ $timestamp = $date->getTimestamp();
     <title>Examination - Transcription Staff</title>
     <link rel="shortcut icon" href="#"/>
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1"/>
-    <link rel="stylesheet" href="css/bootstrap.min.css" crossorigin="anonymous">
-    <link href="css/custom.css" rel="stylesheet" />
-    <link href="css/typingtest.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../css/bootstrap.min.css" crossorigin="anonymous">
+    <link href="../css/custom.css" rel="stylesheet" />
+    <link href="../css/typingtest.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet"/>
 

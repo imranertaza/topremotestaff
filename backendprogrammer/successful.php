@@ -10,6 +10,9 @@ require '../admin/config/url.php';
 	  gtag('js', new Date());
 
 	  gtag('config', 'AW-1001506790');
+
+
+      document.cookie = "sourceURL=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
 	</script>
 
 <!-- Global site tag (gtag.js) - Google Ads: 1001506790 -->
@@ -29,8 +32,6 @@ require '../admin/config/url.php';
 <style>
 	@font-face {
 		font-family: 'Product Sans Regular';
-		src: url('fonts/ProductSans-Regular.woff2') format('woff2'),
-			url('fonts/ProductSans-Regular.woff') format('woff');
 		font-weight: normal;
 		font-style: normal;
 		font-display: swap;
@@ -39,8 +40,6 @@ require '../admin/config/url.php';
 
 	@font-face {
 		font-family: 'Product Sans Black';
-		src: url('fonts/ProductSans-Black.woff2') format('woff2'),
-			url('fonts/ProductSans-Black.woff') format('woff');
 		font-weight: 900;
 		font-style: normal;
 		font-display: swap;

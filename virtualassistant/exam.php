@@ -60,7 +60,7 @@ $timestamp = $date->getTimestamp();
         $_SESSION["typing_test_speed"] = $_POST['typing_test_speed'];
 
         if(mysqli_num_rows($getQuestions) > 0){ ?>
-			<form action="save_staff.php" method="post">
+			<form action="save_staff.php" method="post" id="examForm">
 				<input type="hidden" name="timestamp" value="<?php echo $timestamp; ?>">
 				<input type="hidden" name="typing_test_accuracy" value="<?php echo $_POST['typing_test_accuracy']; ?>">
 				<input type="hidden" name="typing_test_speed" value="<?php echo $_POST['typing_test_speed']; ?>">
@@ -88,7 +88,7 @@ $timestamp = $date->getTimestamp();
 						</div>
 					<?php } ?>
 					<br/>
-					<button type="submit" class="btn-success px-2 my-3">SUBMIT NOW</button>
+					<button type="button" id="examFormSubmit" class="btn-success px-2 my-3">SUBMIT NOW</button>
 				</div>
 			</form>
 		<?php } ?>
@@ -98,7 +98,11 @@ $timestamp = $date->getTimestamp();
      <script src="../admin/js/bootstrap.min.js"></script>
 	<script>
   		$(document).ready(function(){
-			var countDownDate = new Date("<?php echo date("M j, Y G:i:s" , ($timestamp + 1200)); ?>").getTime();
+            var countDownDate = localStorage.getItem("timeleft");
+            if (!countDownDate) {
+                countDownDate = new Date("<?php echo date("M j, Y G:i:s" , ($timestamp + 1200)); ?>").getTime();
+                localStorage.setItem("timeleft", countDownDate);
+            }
 			var x = setInterval(function() {
 				var usaTime = new Date().toLocaleString("en-US", {timeZone: "<?php echo date_default_timezone_get(); ?>"});
 	        		var now = new Date(usaTime).getTime();
@@ -123,6 +127,15 @@ $timestamp = $date->getTimestamp();
   gtag('js', new Date());
 
   gtag('config', 'AW-1001506790');
+
+  // Clear localStorage and submit the form (Start)
+  let examFormSubmit = document.getElementById('examFormSubmit');
+  let examForm = document.getElementById('examForm');
+  examFormSubmit.addEventListener("click", (e)=>{
+      localStorage.removeItem("timeleft");
+      examForm.submit();
+  });
+  // Clear localStorage and submit the form (End)
 </script>
 
 </body>

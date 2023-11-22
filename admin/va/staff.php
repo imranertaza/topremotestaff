@@ -88,6 +88,7 @@ $tab_array = array('pending' => 'PENDING STAFF', 'approved' => 'APPROVED STAFF',
                     <th style="width:15%">Source</th>
                     <th style="width:15%">CV</th>
                     <th style="width:15%">Voice Record</th>
+                    <th style="width:15%">Typing Score</th>
                     <th style="width:12px">Score</th>
                     <th style="width:7%">Test</th>
                     <th style="width:6%">Action</th>
@@ -119,6 +120,10 @@ $tab_array = array('pending' => 'PENDING STAFF', 'approved' => 'APPROVED STAFF',
                                             onclick="showVoiceModal('<?php print $virtualassistantResult[$x]['voice_record']; ?>')">
                                         View Voice Record
                                     </button>
+                                </td>
+                                <td class="typing-total">
+                                    Accuracy: <?php echo $virtualassistantResult[$x]['typing_test_accuracy']; ?><br>
+                                    Speed: <?php echo $virtualassistantResult[$x]['typing_test_speed']; ?>
                                 </td>
                                 <td class="score-total"><?php echo $virtualassistantResult[$x]['test_score']; ?>%</td>
                                 <td>

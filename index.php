@@ -306,7 +306,7 @@ TopRemoteStaff: An exclusive network of the freelance experts worldwide. -   boo
                                         </div>
                                     </div>
                                 </a>
-                                <a class="section-jobs__item" href="phoneagent.html">
+                                <a class="section-jobs__item" href="phone_agent">
                                     <div class="section-jobs__icon">
                                         <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M9.23092 28.3077C10.2499 28.3077 11.0771 29.1348 11.0771 30.1538C11.0771 31.1729 10.2499 32 9.23092 32C8.21184 32 7.38477 31.1729 7.38477 30.1538C7.38477 29.1348 8.21172 28.3077 9.23092 28.3077Z" />
@@ -775,6 +775,13 @@ Program backend features and functions with PHP and MySQL database.
                     return scrollWidth;
                 }
             }
+
+
+            window.onload = (event) => {
+                // localStorage.removeItem("timeleft");
+                setreferrer_cookie();
+                // clear_localStorage();
+            };
         </script>
         <script type="text/javascript" src="js/refercookie.js"></script>
     </body>

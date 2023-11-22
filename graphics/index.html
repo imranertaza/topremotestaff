@@ -15,7 +15,7 @@
         <link rel="shortcut icon" href="./img/iconx.png" type="image/x-icon">
         <link rel="stylesheet" href="./css/style.css">
     </head>
-    <body onload="setreferrer_cookie();">
+    <body>
         <div class="wrapper">
             <header class="header home" id="home">
                 <div class="container">
@@ -656,7 +656,6 @@
   var CV_file_span = document.getElementById("attachedfile");
 
   resume.addEventListener("input", function (e) {
-      console.log("input")
       var justFileName = resume.files.item(0).name;
       const lastDot = justFileName.lastIndexOf('.');
       var ext = justFileName.substring(lastDot + 1);
@@ -780,7 +779,8 @@
       emailField.value="";
       resume.value="";
       portfolioUrl.value ="";
-      console.log("onload")
+      setreferrer_cookie();
+      clear_localStorage();
   };
 
 
@@ -807,6 +807,6 @@
                 color: #000000 !important;
             }
         </style>
-        <script type="text/javascript" src="js/refercookie.js"></script>
+        <script type="text/javascript" src="../js/refercookie.js"></script>
     </body>
 </html>

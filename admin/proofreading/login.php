@@ -5,8 +5,8 @@
         <title>Sign In - Transcription Staff</title>
 		<link rel="shortcut icon" href="#" />
         <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1" />
-		<link rel="stylesheet" href="css/bootstrap.min.css" crossorigin="anonymous">
-        <link href="style.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/bootstrap.min.css" crossorigin="anonymous">
+        <link href="../css/login.css" rel="stylesheet" />
 		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
 		<style>
 			body {

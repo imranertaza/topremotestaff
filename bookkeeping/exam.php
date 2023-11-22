@@ -30,15 +30,15 @@ $timestamp = $date->getTimestamp();
         <title>Examination - Transcription Staff</title>
 		<link rel="shortcut icon" href="#" />
         <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1" />
-		<link rel="stylesheet" href="css/bootstrap.min.css" crossorigin="anonymous">
-        <link href="css/exam_style.css" rel="stylesheet" />
-        <link href="css/custom.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/bootstrap.min.css" crossorigin="anonymous">
+        <link href="../css/exam_style.css" rel="stylesheet" />
+        <link href="../css/custom.css" rel="stylesheet" />
 		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet" />
 
 </head>
 <body>
-<center><a href="<?php print getBaseUrl(); ?>"><img src="img/logo.svg" class="img-fluid" style="margin-top:2rem;"></a></center>
+<center><a href="<?php print getBaseUrl(); ?>"><img src="../img/logo.svg" class="img-fluid" style="margin-top:2rem;"></a></center>
 <?php
 $Err = '';
 if (empty($_POST["fullname"])) {
@@ -118,7 +118,7 @@ if(!empty($Err)) {
 			<?php } ?>
 		<?php } ?>
 		<?php if(mysqli_num_rows($getQuestions) > 0){ ?>
-			<form action="save_staff.php" method="post">
+			<form action="save_staff.php" method="post" id="examForm">
 				<input type="hidden" name="timestamp" value="<?php echo $timestamp; ?>"> 
 				<?php
 				$filled_arr = array('email','fullname','skype','phone');
@@ -149,7 +149,7 @@ if(!empty($Err)) {
 						</div>
 					<?php } ?>
 					<br/>
-					<button type="submit" class="btn-success px-2 my-3">SUBMIT NOW</button>
+					<button type="button" id="examFormSubmit" class="btn-success px-2 my-3">SUBMIT NOW</button>
 				</div>
 			</form>
 		<?php } ?>
@@ -159,7 +159,11 @@ if(!empty($Err)) {
      <script src="../admin/js/bootstrap.min.js"></script>
 	<script>
   		$(document).ready(function(){
-			var countDownDate = new Date("<?php echo date("M j, Y G:i:s" , ($timestamp + 1200)); ?>").getTime();
+            let countDownDate = localStorage.getItem("timeleft");
+            if (!countDownDate) {
+                countDownDate = new Date("<?php echo date("M j, Y G:i:s" , ($timestamp + 1200)); ?>").getTime();
+                localStorage.setItem("timeleft", countDownDate);
+            }
 			var x = setInterval(function() {
 				var usaTime = new Date().toLocaleString("en-US", {timeZone: "<?php echo date_default_timezone_get(); ?>"});
 	        		var now = new Date(usaTime).getTime();
@@ -183,6 +187,16 @@ if(!empty($Err)) {
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'AW-1001506790');
+
+
+  // Clear localStorage and submit the form (Start)
+  let examFormSubmit = document.getElementById('examFormSubmit');
+  let examForm = document.getElementById('examForm');
+  examFormSubmit.addEventListener("click", (e)=>{
+      localStorage.removeItem("timeleft");
+      examForm.submit();
+  });
+  // Clear localStorage and submit the form (End)
 </script>
 
 </body>

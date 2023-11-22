@@ -16,7 +16,8 @@
     <link rel="shortcut icon" href="./img/iconx.png" type="image/x-icon">
     <link rel="stylesheet" href="./css/style.css">
 </head>
-<body onload="setreferrer_cookie();">
+<body>
+
 <div class="wrapper">
     <header class="header home" id="home">
         <div class="container">
@@ -215,7 +216,7 @@
                             <div class="modal__form-wrap">
                                 <input type="text" class="modal__input" name="fullname"
                                        placeholder="Full Name (Required)" required="">
-                                <input type="text" class="modal__input" name="email" placeholder="Email (Required)"
+                                <input type="text" id="email" class="modal__input" name="email" placeholder="Email (Required)"
                                        required="">
                                 <input type="text" class="modal__input" name="phone" placeholder="Phone (Optional)">
                                 <input type="text" class="modal__input" name="skype" placeholder="Skype (Optional)">
@@ -497,7 +498,7 @@
                 <div class="modal__form-wrap">
                     <input type="text" class="modal__input" name="fullname" placeholder="Full Name*" required="">
                     <input type="text" class="modal__input" name="phone" placeholder="Phone*" required="">
-                    <input type="text" class="modal__input" name="email" placeholder="Email*" required="">
+                    <input type="text" id="email" class="modal__input" name="email" placeholder="Email*" required="">
                     <textarea class="modal__input" rows="4" name="message" placeholder="Message*"
                               required=""></textarea>
                 </div>
@@ -515,6 +516,7 @@
             </span>
 </aside>
 <script type="text/javascript">
+
     const burger = document.querySelector('.header__burger')
     const questionsItem = document.querySelectorAll('.section-questions__item')
     if (burger) {
@@ -680,7 +682,16 @@
     gtag('js', new Date());
 
     gtag('config', 'AW-1001506790');
+
+
+    let email = document.getElementById("email");
+
+    window.onload = (event) => {
+        email.value="";
+        setreferrer_cookie();
+        clear_localStorage();
+    };
 </script>
-<script type="text/javascript" src="js/refercookie.js"></script>
+<script type="text/javascript" src="../js/refercookie.js"></script>
 </body>
 </html>
