@@ -1,0 +1,61 @@
+<?php
+require 'email.php';
+require 'config/database.php';
+require 'controller/crud.php';
+
+$email = new EmailSender();
+$crud = new Crud();
+
+
+	if(!empty($_POST)){
+
+		$checkEmail = $db->query($crud->getOrData('ts_users', array("email"), array($_POST['email'])));
+		$checkBlackList = $db->query($crud->getOrData('ts_blacklist', array("email"), array($_POST['email'])));
+		
+		if ($checkEmail->num_rows > 0) {
+			header('Location: index.php?email=error');
+		}else{
+			if ($checkBlackList->num_rows > 0) {
+				header('Location: successful.php');
+			}else{
+				if(strlen($_POST['content']) >= 800){
+					$encode_content = urlencode($_POST['content']);
+					
+					$data = array(
+						'fullname' => $_POST['fullname'],
+						'email' => $_POST['email'],
+						'phone' => $_POST['phone'],
+						'skype' => $_POST['skype'],
+						'paypal' => "",
+						'content' => $encode_content,
+						'status' => 0,
+						'date_created' => date("Y-m-d H:i:s")
+					);
+				
+					$query = $crud->add('ts_users', $data);
+
+					$result = $db->query($query);
+					
+						if($result){
+							//$recipient = "cabalida.stephen@gmail.com";
+							/*$recipient = "jayteng1980@gmail.com";
+							$subject = "Transcription Staff Registration Successful";
+							$bodyHtml = "<h5>Hello,<br/><br/>Thank you for applying as a staff. Below are your user details<br/><br/>
+							Full Name: ".$_POST['fullname']."
+							<br/>Email: ".$_POST['email']."
+							<br/>Phone: ".$_POST['phone']."
+							<br/>Skype: ".$_POST['skype']."
+							<br/>Paypal: ".$_POST['paypal']."
+							<br/>Content:<br/><p style='white-space: pre-wrap'>".$_POST['content']."</p>";
+							if($email->send($recipient, $subject, $bodyHtml)){*/
+								header('Location: successful.php');
+							//}
+						}
+				}else{
+					header('Location: index.php?application=error');
+				}
+			}
+		}	
+		
+	}
+?>
