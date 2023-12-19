@@ -44,9 +44,9 @@ $crud = new Crud();
 		$getProofreaderEmailContent = mysqli_query($db, "SELECT * FROM ts_approve_email_template WHERE type='2'");
 		$proofreaderResult = mysqli_fetch_all($getProofreaderEmailContent, MYSQLI_ASSOC);
 		
-		$proofreaderContent = str_replace("%24name",$_POST['fullname'],$proofreaderResult[0]['content']);
-		$proofreaderContent = str_replace("%24email",$_POST['email'],$proofreaderContent);
-		$proofreaderContent = htmlentities(urldecode($proofreaderContent));
+//		$proofreaderContent = str_replace("%24name",$_POST['fullname'],$proofreaderResult[0]['content']);
+//		$proofreaderContent = str_replace("%24email",$_POST['email'],$proofreaderContent);
+//		$proofreaderContent = htmlentities(urldecode($proofreaderContent));
 
 		
 		$data = array(
@@ -59,7 +59,7 @@ $crud = new Crud();
 			$bodyHtml = "<p style='white-space: pre-line;'>" . $transcriberContent . "</p>";
 			
 		}else{
-			$bodyHtml = "<p style='white-space: pre-line;'>" . $proofreaderContent . "</p>";
+			//$bodyHtml = "<p style='white-space: pre-line;'>" . $proofreaderContent . "</p>";
 		}
 		
 		$query = $crud->update('ts_users', $data, "id", $_POST['id']);

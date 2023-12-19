@@ -39,7 +39,6 @@
                         <ul class="menu__list">
                             <li class="menu__item"><a class="menu__link menu__link--active menu__nav" data-nav="home"
                                                       href="#home">Home</a></li>
-                            <!-- <li class="menu__item"><a class="menu__link menu__nav" data-nav="jobs_we_offer" href="#jobs_we_offer">Jobs We Offer</a></li> -->
                             <li class="menu__item"><a class="menu__link menu__nav" data-nav="our_values"
                                                       href="#our_values">Our Values</a></li>
                             <li class="menu__item"><a class="menu__link menu__nav" data-nav="faq" href="#faq">FAQ</a>
@@ -226,11 +225,13 @@
                             <p class="section__text">Fill out this form, complete a 10-minute test, and get feedback
                                 within three business days.</p>
                             <!--                                <form class="form" method="post" action="exam.php">-->
-                            <p class="alert-danger">Please fill out all fields.</p>
+<!--                            <p class="alert-danger">Please fill out all fields.</p>-->
                             <div class="modal__form-wrap">
-                                <input type="text" class="modal__input" name="fullname"
+                                <input type="text" class="modal__input mb-0" name="fullname"
                                        placeholder="Full Name (Required)">
-                                <input type="text" class="modal__input" name="email" placeholder="Email (Required)">
+                                <span class="d-block text-left" style="margin-bottom: 10px;color: red;font-size: 14px" id="nameERR"></span>
+                                <input type="text" class="modal__input mb-0" name="email" placeholder="Email (Required)">
+                                <span id="emailERR" class="d-block text-left" style="margin-bottom: 10px;color: red;font-size: 14px" ></span>
                                 <input type="text" class="modal__input" name="phone" placeholder="Phone (Optional)">
                                 <input type="text" class="modal__input" name="skype" placeholder="Skype (Optional)">
                             </div>
@@ -482,22 +483,7 @@
                         </a>
                         <div class="footer__header"></div>
                         <div class="footer__subcolumn">
-                            <!--
-                                                            <ul class="footer__list">
-                                                                <li class="footer__item"><a class="footer__link" href="">Transcription</a>
-                                                                <li class="footer__item"><a class="footer__link" href="">English Proofreading</a>
-                                                                <li class="footer__item"><a class="footer__link" href="">Bookkeping</a>
-                                                                <li class="footer__item"><a class="footer__link" href="">Live Chat</a>
-                                                                <li class="footer__item"><a class="footer__link" href="">Graphics Touchup</a>
-                                                            </ul>
 
-                                                            <ul class="footer__list">
-                                                                <li class="footer__item"><a class="footer__link" href="">Html Programming</a>
-                                                                <li class="footer__item"><a class="footer__link" href="">Phone Agent</a>
-                                                                <li class="footer__item"><a class="footer__link" href="">Backend Programmer</a>
-                                                                <li class="footer__item"><a class="footer__link" href="">Virtual Assistant</a>
-                                                            </ul>
-                            -->
                         </div>
                     </div>
                     <div class="footer__column">
@@ -521,14 +507,7 @@
                         </ul>
                     </div>
                 </div>
-                <!--
-                                    <ul class="footer__copyright-list">
-                                        <li class="footer__copyright-item">Copyright 2022 TopRemoteStaff, LLC</li>
-                                        <li class="footer__copyright-item"><a class="footer__copyright-link" href=''>Privacy Policy</a></li>
-                                        <li class="footer__copyright-item"><a class="footer__copyright-link" href=''>Website Terms</a></li>
-                                        <li class="footer__copyright-item"><a class="footer__copyright-link" href=''>Accessibility</a></li>
-                                    </ul>
-                -->
+
             </div>
         </footer>
     </div>
@@ -552,29 +531,38 @@
 
 
 <script type="text/javascript">
+    function validateEmail(email) {
+        const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+        return emailRegex.test(email);
+    }
+
 
     $(document).ready(function () {
-        $("#nextStep").click(function () {
-            if ($("input[name=fullname]").val() == "" || $("input[name=email]").val() == "") {
-                $(".apply_now .alert-danger").show();
+
+      $("#nextStep").click(function () {
+            $("#nameERR").text("");
+            $("input[name=fullname]").css('border', '2px solid var(--border-color)');
+
+            $("#emailERR").text("");
+            $("input[name=email]").css('border', '2px solid var(--border-color)');
+
+            if ($("input[name=fullname]").val() === "") {
+                $("#nameERR").text("Name field is required");
+                $("input[name=fullname]").css('border', '2px solid red');
+            }else if($("input[name=fullname]").val().length > 32){
+                $("#nameERR").text("Your value is too large");
+                $("input[name=fullname]").css('border', '2px solid red');
+            }else if($("input[name=email]").val() === ""){
+                $("#emailERR").text("Email field is required");
+                $("input[name=email]").css('border', '2px solid red');
+            }else if(!validateEmail($("input[name=email]").val())){
+                $("#emailERR").text("Email is not valid");
+                $("input[name=email]").css('border', '2px solid red');
             } else {
                 $("#saveStaffForm").submit();
             }
         });
-
-        if ($("#emailSuccess").val() == 1) {
-            $("#sucessModal").modal("show");
-        }
-
-        if ($("#email_error").val() == 1) {
-            $("#emailErrorModal").modal("show");
-        }
-        if ($("#application_error").val() == 1) {
-            $("#errorModal").modal("show");
-        }
-
     });
-
 
 </script>
 

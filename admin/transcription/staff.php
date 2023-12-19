@@ -1,6 +1,14 @@
 <?php
+session_start();
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
+
 require '../config/database.php';
 require '../controller/crud.php';
+require '../includes/calculateScore.php';
 
 if (!isset($_COOKIE["staff_session_id"])) {
     if ($_COOKIE["staff_session_id"] != 1) {
@@ -9,6 +17,7 @@ if (!isset($_COOKIE["staff_session_id"])) {
 }
 
 $crud = new Crud();
+$getScore = new CalculateScore();
 
 if (!isset($_GET['tab'])) {
     $getData = mysqli_query($db, "SELECT * FROM ts_users WHERE status='0' ORDER BY date_created DESC");
@@ -16,6 +25,7 @@ if (!isset($_GET['tab'])) {
     $getTestData = mysqli_query($db, "SELECT * FROM ts_test WHERE id='2'");
     $testDataResult = mysqli_fetch_all($getTestData, MYSQLI_ASSOC);
 }
+
 
 if (isset($_GET['tab'])) {
     if ($_GET['tab'] == "pending") {
@@ -48,13 +58,6 @@ if (isset($_GET['tab'])) {
         $followupEmailTemplate = mysqli_fetch_all($getFollowupEmailTemplate, MYSQLI_ASSOC);
     }
 }
-
-if (isset($_GET['tab'])) {
-    if ($_GET['tab'] == "proofread") {
-        $getQuestions = mysqli_query($db, "SELECT * FROM ts_questions WHERE status='1' ORDER BY date_created DESC");
-        $questionResult = mysqli_fetch_all($getQuestions, MYSQLI_ASSOC);
-    }
-}
 ?>
 <!DOCTYPE html>
 <html>
@@ -70,29 +73,7 @@ if (isset($_GET['tab'])) {
 <body>
 <a href="signout.php" class="btn-danger" style="float:right;text-decoration:none;font-size:15px">Sign Out</a>
 <h2>All Staff</h2>
-<div class="tab">
-    <!--	--><?php //if(!empty($_GET)){ ?>
-    <!--		--><?php //if($_GET['tab'] == "proofread"){ ?>
-    <!--			<form action="" method="get"><button type="submit" name="tab" value="pending" class="tablinks" onclick="openT(event, 'transcription')"><h5 class="m-0">Transcription</h5></button></form>-->
-    <!--			<form action="" method="get"><button type="submit" name="tab" value="proofread" class="tablinks active" onclick="openT(event, 'proofread')"><h5 class="m-0">Edit/Proofread</h5></button></form>-->
-    <!--		--><?php //}else{ ?>
-    <!--			<form action="" method="get"><button type="submit" name="tab" value="pending" class="tablinks active" onclick="openT(event, 'transcription')"><h5 class="m-0">Transcription</h5></button></form>-->
-    <!--			<form action="" method="get"><button type="submit" name="tab" value="proofread" class="tablinks" onclick="openT(event, 'proofread')"><h5 class="m-0">Edit/Proofread</h5></button></form>-->
-    <!--		--><?php //} ?>
-    <!--	--><?php //}else{ ?>
-    <!--			<form action="" method="get"><button type="submit" name="tab" value="pending" class="tablinks active" onclick="openT(event, 'transcription')"><h5 class="m-0">Transcription</h5></button></form>-->
-    <!--			<form action="" method="get"><button type="submit" name="tab" value="proofread" class="tablinks" onclick="openT(event, 'proofread')"><h5 class="m-0">Edit/Proofread</h5></button></form>-->
-    <!--	--><?php //} ?>
-</div>
-<?php if (!empty($_GET)){ ?>
-<?php if ($_GET['tab'] == "proofread"){ ?>
-<div id="transcription" class="tabcontent p-1">
-    <?php }else{ ?>
-    <div id="transcription" class="tabcontent p-1 show">
-        <?php } ?>
-        <?php }else{ ?>
-        <div id="transcription" class="tabcontent p-1 show">
-            <?php } ?>
+
 
             <div class="tab">
                 <?php if (!empty($_GET)) { ?>
@@ -194,7 +175,7 @@ if (isset($_GET['tab'])) {
 
             <?php if (!empty($_GET)){ ?>
             <?php if ($_GET['tab'] == "approved"){ ?>
-            <div id="pending" class="tabcontent p-1 ">
+                <div id="pending" class="tabcontent p-1 ">
                 <?php }else if ($_GET['tab'] == "test"){ ?>
                 <div id="pending" class="tabcontent p-1">
                     <?php }else if ($_GET['tab'] == "email"){ ?>
@@ -268,13 +249,12 @@ if (isset($_GET['tab'])) {
 
                                                 ?>
                                                 <tr>
-                                                    <td><?php echo $result[$x]['fullname']; ?></td>
+                                                    <td><?php echo urldecode($result[$x]['fullname']); ?></td>
                                                     <td><?php echo $result[$x]['email']; ?></td>
-                                                    <td><?php echo $result[$x]['phone']; ?></td>
-                                                    <td><?php echo $result[$x]['ip_address']; ?></td>
+                                                    <td><?php echo urldecode($result[$x]['phone']); ?></td>
+                                                    <td><?php echo urldecode($result[$x]['ip_address']); ?></td>
                                                     <td>
                                                         <?php echo $result[$x]['code']; ?>
-
                                                     </td>
                                                     <td>
                                                         <button class="btn-default"
@@ -285,114 +265,48 @@ if (isset($_GET['tab'])) {
                                                     <td class="score-total">
                                                         <?php
 
-                                                        $getTestData2 = mysqli_query($db, "SELECT * FROM ts_test WHERE id=" . $result[$x]['test_id']);
-                                                        $testDataResult2 = mysqli_fetch_all($getTestData2, MYSQLI_ASSOC);
+                                                        $getDataTest = mysqli_query($db, "SELECT * FROM ts_user_test WHERE user_id=".$result[$x]['id']);
+                                                        $resultTest = mysqli_fetch_all($getDataTest, MYSQLI_ASSOC);
 
-                                                        $content = htmlentities(urldecode($result[$x]['content']));
-                                                        $kerywords = json_decode($testDataResult2[0]['keywords']);
-                                                        $negative_keywords = json_decode($testDataResult2[0]['negative_keywords']);
-                                                        $score = 0;
-                                                        $total = count($kerywords);
-                                                        $totalNegative = count($negative_keywords);
-                                                        $not_included_words = "";
-                                                        $negative_included_words = "";
+                                                        if (!empty($resultTest)) {
 
-                                                        for ($a = 0; $a < $total; $a++) {
+                                                        $test_1_result = $getScore->user_single_test_result($resultTest[0]['test_1_id'],$resultTest[0]['test_1_content']);
+                                                        $test_2_result = $getScore->user_single_test_result($resultTest[0]['test_2_id'],$resultTest[0]['test_2_content']);
+                                                        $test_3_result = $getScore->user_single_test_result($resultTest[0]['test_3_id'],$resultTest[0]['test_3_content']);
+                                                        $test_4_result = $getScore->user_single_test_result($resultTest[0]['test_4_id'],$resultTest[0]['test_4_content']);
+                                                        $test_5_result = $getScore->user_single_test_result($resultTest[0]['test_5_id'],$resultTest[0]['test_5_content']);
 
-                                                            $words = explode("|", $kerywords[$a]);
-                                                            $not_included = 0;
-                                                            $chk = 0;
+                                                        $score_1 = $test_1_result['score']/$test_1_result['total_keyword'];
+                                                        $score_2 = $test_2_result['score']/$test_2_result['total_keyword'];
+                                                        $score_3 = $test_3_result['score']/$test_3_result['total_keyword'];
+                                                        $score_4 = $test_4_result['score']/$test_4_result['total_keyword'];
+                                                        $score_5 = $test_5_result['score']/$test_5_result['total_keyword'];
 
-                                                            for ($z = 0; $z < count($words); $z++) {
-                                                                if ($z < 1) {
-                                                                    if (stripos($content, $words[$z]) > 0 && stripos($content, $words[$z]) !== FALSE) {
-                                                                        $score += 1;
 
-                                                                    } else {
-                                                                        $not_included = 1;
-                                                                    }
-                                                                }
-                                                                if ($z > 0 && stripos($content, $words[0]) < 1) {
-                                                                    if (stripos($content, $words[$z]) > 0 && stripos($content, $words[$z]) !== FALSE) {
-                                                                        $score += 1;
-                                                                        $not_included = 0;
-                                                                        $chk = 1;
-                                                                    } else {
 
-                                                                        if ($chk != 1) {
-                                                                            $not_included = 1;
-                                                                        }
+                                                        $score =  (($score_1 + $score_2 + $score_3 + $score_4 + $score_5)/5)*100;
+                                                        $total = $test_1_result['total_keyword'];
 
-                                                                    }
-                                                                }
+                                                        $t_not_included_words = $test_1_result['not_included_words'].$test_2_result['not_included_words'].$test_3_result['not_included_words'].$test_4_result['not_included_words'].$test_5_result['not_included_words'];
+                                                        $t_negative_included_words = $test_1_result['negative_included_words'].$test_2_result['negative_included_words'].$test_3_result['negative_included_words'].$test_4_result['negative_included_words'].$test_5_result['negative_included_words'];
 
-                                                            }
-                                                            if ($not_included == 1) {
-                                                                $not_included_words = $not_included_words . "<span>" . $words[0] . "</span>";
-                                                            }
-                                                        }
-
-                                                        for ($a = 0; $a < $totalNegative; $a++) {
-
-                                                            $words = explode("|", $negative_keywords[$a]);
-                                                            $not_included = 0;
-                                                            $chk = 0;
-
-                                                            for ($z = 0; $z < count($words); $z++) {
-                                                                if ($z < 1) {
-                                                                    if (stripos($content, $words[$z]) > 0 && stripos($content, $words[$z]) !== FALSE) {
-                                                                        $score += 1;
-
-                                                                    } else {
-                                                                        $not_included = 1;
-                                                                    }
-                                                                }
-                                                                if ($z > 0 && stripos($content, $words[0]) < 1) {
-                                                                    if (stripos($content, $words[$z]) > 0 && stripos($content, $words[$z]) !== FALSE) {
-                                                                        $score += 1;
-                                                                        $not_included = 0;
-                                                                        $chk = 1;
-                                                                    } else {
-
-                                                                        if ($chk != 1) {
-                                                                            $not_included = 1;
-                                                                        }
-
-                                                                    }
-                                                                }
-
-                                                            }
-                                                            if ($not_included == 0) {
-                                                                $negative_included_words = $negative_included_words . "<span style='background-color:#f19c00'>" . $words[0] . "</span>";
-                                                            }
-                                                        }
+//
                                                         ?>
 
                                                         <?php if ($total != $score) { ?>
                                                             <div class="tooltip">
-                                                                <?php echo $score . "/" . $total; ?>
+                                                                <?php echo round($score,2); ?>
                                                                 <span class="tooltiptext">
-															<p style="color:#000;margin:0;font-size:14px;padding-left:4px;"><strong>Score: </strong><?php echo $score . "/" . $total; ?></p>
-															<?php echo $not_included_words; ?>
-															<p style="color:#000;margin:0;font-size:14px;padding-left:4px;padding-top:10px;"><b>Negative Keywords:</b></p>
-															<?php echo $negative_included_words; ?>
-														</span>
+                                                                    <p style="color:#000;margin:0;font-size:14px;padding-left:4px;"><strong>Score: </strong><?php echo round($score,2); ?></p>
+                                                                    <?php echo $t_not_included_words; ?>
+                                                                    <p style="color:#000;margin:0;font-size:14px;padding-left:4px;padding-top:10px;"><b>Negative Keywords:</b></p>
+                                                                    <?php echo $t_negative_included_words; ?>
+														        </span>
                                                             </div>
-                                                            <!--<p onmouseenter="showModal(<?php echo "notIncludedmodal" . (string)$result[$x]['id']; ?>)"></p>
-														
-													<div id="notIncludedmodal<?php echo $result[$x]['id']; ?>" class="modal">
-														<div class="modal-content" style="width:50%;max-height: 500px;overflow-y: auto;">
-															 <div class="modal-body">
-																<span class="close" onclick="closeModal(<?php echo "notIncludedmodal" . (string)$result[$x]['id']; ?>)">&#x2716;</span>
-																<p>
-																	
-																</p>
-															</div>
-														</div>
-													</div>-->
+
                                                         <?php } else { ?>
-                                                            <p><?php echo $score . "/" . $total; ?></p>
-                                                        <?php } ?>
+                                                            <p><?php echo round($score,2); ?></p>
+                                                        <?php } } ?>
 
                                                     </td>
 
@@ -433,23 +347,23 @@ if (isset($_GET['tab'])) {
                                                                                 TRANSCRIBER
                                                                             </button>
                                                                         </form>
-                                                                        <form method="post" action="approve_staff.php"
-                                                                              style="display:inline">
-                                                                            <input type="hidden" name="id"
-                                                                                   value="<?php echo $result[$x]['id']; ?>">
-                                                                            <input type="hidden" name="email"
-                                                                                   value="<?php echo $result[$x]['email']; ?>">
-                                                                            <input type="hidden" name="fullname"
-                                                                                   value="<?php echo $result[$x]['fullname']; ?>">
-                                                                            <input type="hidden" name="account_type"
-                                                                                   value="2">
-                                                                            <input type="hidden" name="status"
-                                                                                   value="1">
-                                                                            <button type="submit" class="btn-success"
-                                                                                    style="font-size:12px;">Yes, as
-                                                                                PROOFREADER
-                                                                            </button>
-                                                                        </form>
+<!--                                                                        <form method="post" action="approve_staff.php"-->
+<!--                                                                              style="display:inline">-->
+<!--                                                                            <input type="hidden" name="id"-->
+<!--                                                                                   value="--><?php //echo $result[$x]['id']; ?><!--">-->
+<!--                                                                            <input type="hidden" name="email"-->
+<!--                                                                                   value="--><?php //echo $result[$x]['email']; ?><!--">-->
+<!--                                                                            <input type="hidden" name="fullname"-->
+<!--                                                                                   value="--><?php //echo $result[$x]['fullname']; ?><!--">-->
+<!--                                                                            <input type="hidden" name="account_type"-->
+<!--                                                                                   value="2">-->
+<!--                                                                            <input type="hidden" name="status"-->
+<!--                                                                                   value="1">-->
+<!--                                                                            <button type="submit" class="btn-success"-->
+<!--                                                                                    style="font-size:12px;">Yes, as-->
+<!--                                                                                TRANSCRIBER-->
+<!--                                                                            </button>-->
+<!--                                                                        </form>-->
                                                                     </center>
                                                                 </div>
                                                             </div>
@@ -479,22 +393,22 @@ if (isset($_GET['tab'])) {
                                                                             TRANSCRIBER
                                                                         </button>
                                                                     </form>
-                                                                    <form method="post" action="approve_staff.php"
-                                                                          style="display:inline">
-                                                                        <input type="hidden" name="id"
-                                                                               value="<?php echo $result[$x]['id']; ?>">
-                                                                        <input type="hidden" name="email"
-                                                                               value="<?php echo $result[$x]['email']; ?>">
-                                                                        <input type="hidden" name="fullname"
-                                                                               value="<?php echo $result[$x]['fullname']; ?>">
-                                                                        <input type="hidden" name="account_type"
-                                                                               value="2">
-                                                                        <input type="hidden" name="status" value="1">
-                                                                        <button type="submit" class="btn-success"
-                                                                                style="font-size:12px;">APPROVE
-                                                                            PROOFREADER
-                                                                        </button>
-                                                                    </form>
+<!--                                                                    <form method="post" action="approve_staff.php"-->
+<!--                                                                          style="display:inline">-->
+<!--                                                                        <input type="hidden" name="id"-->
+<!--                                                                               value="--><?php //echo $result[$x]['id']; ?><!--">-->
+<!--                                                                        <input type="hidden" name="email"-->
+<!--                                                                               value="--><?php //echo $result[$x]['email']; ?><!--">-->
+<!--                                                                        <input type="hidden" name="fullname"-->
+<!--                                                                               value="--><?php //echo $result[$x]['fullname']; ?><!--">-->
+<!--                                                                        <input type="hidden" name="account_type"-->
+<!--                                                                               value="2">-->
+<!--                                                                        <input type="hidden" name="status" value="1">-->
+<!--                                                                        <button type="submit" class="btn-success"-->
+<!--                                                                                style="font-size:12px;">APPROVE-->
+<!--                                                                            TRANSCRIBER-->
+<!--                                                                        </button>-->
+<!--                                                                    </form>-->
                                                                     <button class="btn-danger"
                                                                             onclick="showModal(<?php echo "declinemodal" . (string)$result[$x]['id']; ?>,<?php echo "contentmodal" . (string)$result[$x]['id']; ?>)">
                                                                         DECLINE
@@ -505,15 +419,75 @@ if (isset($_GET['tab'])) {
                                                                     </button>
                                                                     <br/>
                                                                     <br/>
+                                                                    <?php if (!empty($resultTest)) { ?>
                                                                     <div class="tooltip">
-                                                                        <span><strong>Score: </strong><?php echo $score . "/" . $total; ?></span>
+                                                                        <span><strong>Test One Score: </strong><?php echo $test_1_result['score'] . "/" . $test_1_result['total_keyword']; ?></span>
                                                                         <span class="tooltiptext" style="left:105%">
-																<?php echo $not_included_words; ?>
-															</span>
+																            <?php echo $test_1_result['not_included_words']; ?>
+                                                                            <p style="color:#000;margin:0;font-size:14px;padding-left:4px;padding-top:10px;"><b>Negative Keywords:</b></p>
+															                <?php echo $test_1_result['negative_included_words']; ?>
+															            </span>
                                                                     </div>
                                                                     <p style='white-space: pre-line;margin:0'>
-                                                                        <?php echo htmlentities(urldecode($result[$x]['content'])); ?>
+                                                                        <?php echo $test_1_result['content']; ?>
                                                                     </p>
+
+                                                                    <br>
+                                                                    <div class="tooltip">
+                                                                        <span><strong>Test Two Score: </strong><?php echo $test_2_result['score'] . "/" . $test_2_result['total_keyword']; ?></span>
+                                                                        <span class="tooltiptext" style="left:105%">
+																        <?php echo $test_2_result['not_included_words']; ?>
+                                                                            <p style="color:#000;margin:0;font-size:14px;padding-left:4px;padding-top:10px;"><b>Negative Keywords:</b></p>
+															                <?php echo $test_2_result['negative_included_words']; ?>
+															            </span>
+                                                                    </div>
+                                                                    <p style='white-space: pre-line;margin:0'>
+                                                                        <?php echo $test_2_result['content']; ?>
+                                                                    </p>
+
+                                                                    <br>
+                                                                    <div class="tooltip">
+                                                                        <span><strong>Test Three Score: </strong><?php echo $test_3_result['score']. "/" . $test_3_result['total_keyword']; ?></span>
+                                                                        <span class="tooltiptext" style="left:105%">
+																        <?php echo $test_3_result['not_included_words']; ?>
+                                                                            <p style="color:#000;margin:0;font-size:14px;padding-left:4px;padding-top:10px;"><b>Negative Keywords:</b></p>
+															                <?php echo $test_3_result['negative_included_words']; ?>
+															            </span>
+                                                                    </div>
+                                                                    <p style='white-space: pre-line;margin:0'>
+                                                                        <?php echo $test_3_result['content']; ?>
+                                                                    </p>
+
+                                                                    <br>
+                                                                    <div class="tooltip">
+                                                                        <span><strong>Test Four Score: </strong><?php echo $test_4_result['score']. "/" . $test_4_result['total_keyword']; ?></span>
+                                                                        <span class="tooltiptext" style="left:105%">
+																        <?php echo $test_4_result['not_included_words']; ?>
+                                                                            <p style="color:#000;margin:0;font-size:14px;padding-left:4px;padding-top:10px;"><b>Negative Keywords:</b></p>
+															                <?php echo $test_4_result['negative_included_words']; ?>
+															            </span>
+                                                                    </div>
+                                                                    <p style='white-space: pre-line;margin:0'>
+                                                                        <?php echo $test_4_result['content']; ?>
+                                                                    </p>
+
+                                                                    <br>
+                                                                    <div class="tooltip">
+                                                                        <span><strong>Test Five Score: </strong><?php echo $test_5_result['score']. "/" . $test_5_result['total_keyword']; ?></span>
+                                                                        <span class="tooltiptext" style="left:105%">
+																        <?php echo $test_5_result['not_included_words']; ?>
+                                                                            <p style="color:#000;margin:0;font-size:14px;padding-left:4px;padding-top:10px;"><b>Negative Keywords:</b></p>
+															                <?php echo $test_5_result['negative_included_words']; ?>
+															            </span>
+                                                                    </div>
+                                                                    <p style='white-space: pre-line;margin:0'>
+                                                                        <?php echo $test_5_result['content']; ?>
+                                                                    </p>
+                                                                    <?php }else{
+                                                                        print '<p><b>Data Not Found</b></p>';
+                                                                    } ?>
+
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -584,49 +558,21 @@ if (isset($_GET['tab'])) {
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td class="rating<?php echo $score; ?> <?php echo ($duplicated_ip > 0) ? "duplicateip" : ""; ?> <?php echo ($result[$x]['code'] == "" || $result[$x]['code'] == null) ? "nocode" : ""; ?> <?php
-                                                    $content = htmlentities(urldecode($result[$x]['content']));
-                                                    $kerywords = json_decode($testDataResult2[0]['keywords']);
-                                                    $negative_keywords = json_decode($testDataResult2[0]['negative_keywords']);
-
-                                                    $totalNegative = count($negative_keywords);
-                                                    $negative_included_words = "";
-
-                                                    for ($a = 0; $a < $totalNegative; $a++) {
-
-                                                        $words = explode("|", $negative_keywords[$a]);
-                                                        $not_included = 0;
-                                                        $chk = 0;
-
-                                                        for ($z = 0; $z < count($words); $z++) {
-                                                            if ($z < 1) {
-                                                                if (stripos($content, $words[$z]) > 0 && stripos($content, $words[$z]) !== FALSE) {
-                                                                    $score += 1;
-
-                                                                } else {
-                                                                    $not_included = 1;
-                                                                }
+                                                    <td class="rating<?php echo round($score,0); ?> <?php echo ($duplicated_ip > 0) ? "duplicateip" : ""; ?> <?php echo ($result[$x]['code'] == "" || $result[$x]['code'] == null) ? "nocode" : ""; ?>
+                                                    <?php
+                                                    if (!empty($resultTest)) {
+                                                        for ($c = 1; $c <= 5; $c++){
+                                                            $neg = $getScore->negative_keyword_not_included($resultTest[0]['test_'.$c.'_id'], $resultTest[0]['test_'.$c.'_content']);
+                                                            if ($neg == 0){
+                                                                echo "negative-keyword-content";
+                                                                break;
                                                             }
-                                                            if ($z > 0 && stripos($content, $words[0]) < 1) {
-                                                                if (stripos($content, $words[$z]) > 0 && stripos($content, $words[$z]) !== FALSE) {
-                                                                    $score += 1;
-                                                                    $not_included = 0;
-                                                                    $chk = 1;
-                                                                } else {
-
-                                                                    if ($chk != 1) {
-                                                                        $not_included = 1;
-                                                                    }
-
-                                                                }
-                                                            }
-
                                                         }
-                                                        if ($not_included == 0) {
-                                                            echo "negative-keyword-content";
-                                                            break;
-                                                        }
-                                                    } ?>">
+
+                                                    }
+
+                                                    ?>">
+
                                                         <center><input type="checkbox" class="remove_all"
                                                                        name="remove_all[]"
                                                                        value="<?php echo $result[$x]['id']; ?>">
@@ -685,31 +631,17 @@ if (isset($_GET['tab'])) {
                                                             <?php if (mysqli_num_rows($getApproved) > 0) { ?>
                                                                 <?php for ($x = 0; $x < count($approveResult); $x++) { ?>
                                                                     <tr>
-                                                                        <td style="word-break: break-word;"><?php echo $approveResult[$x]['fullname']; ?></td>
+                                                                        <td style="word-break: break-word;"><?php echo urldecode($approveResult[$x]['fullname']); ?></td>
                                                                         <td style="word-break: break-word;"><?php echo $approveResult[$x]['email']; ?></td>
-                                                                        <td><?php echo $approveResult[$x]['phone']; ?></td>
-                                                                        <td style="word-break: break-word;"><?php echo $approveResult[$x]['skype']; ?></td>
+                                                                        <td><?php echo urldecode($approveResult[$x]['phone']); ?></td>
+                                                                        <td style="word-break: break-word;"><?php echo urldecode($approveResult[$x]['skype']); ?></td>
                                                                         <td><?php echo $approveResult[$x]['paypal']; ?></td>
                                                                         <td>
-                                                                            <?php
-                                                                            if ($approveResult[$x]['account_type'] == 1) {
-                                                                                echo "TRANSCRIBER";
-                                                                            } else {
-                                                                                echo "PROOFREADER";
-                                                                            }
-                                                                            ?>
+                                                                            TRANSCRIBER
                                                                         </td>
                                                                         <td>
                                                                             <?php
-                                                                            /*
-                                                                            $d = DateTime::createFromFormat('Y-m-d H:i:s', $approveResult[$x]['date_updated']);
-                                                                            $check = $d && $d->format('Y-m-d H:i:s') == $approveResult[$x]['date_updated'];
-                                                                            if($check === TRUE){
-                                                                                $approveDate = new DateTime($approveResult[$x]['date_updated']);
-                                                                                echo $approveDate->getTimestamp();
-                                                                            }else{
-                                                                                echo $approveResult[$x]['date_updated'];
-                                                                            }*/
+
                                                                             echo date('Y-m-d H:i:s', $approveResult[$x]['date_updated']);
 
                                                                             ?>
@@ -726,7 +658,31 @@ if (isset($_GET['tab'])) {
                                                                                     <div class="modal-body">
                                                                                         <span class="close"
                                                                                               onclick="closeModal(<?php echo "approvedcontentmodal" . (string)$approveResult[$x]['id']; ?>)">&#x2716;</span>
-                                                                                        <p style='white-space: pre-line'><?php echo htmlentities(urldecode($approveResult[$x]['content'])); ?></p>
+
+                                                                                        <?php
+
+                                                                    $getDataTestAprov = mysqli_query($db, "SELECT * FROM ts_user_test WHERE user_id=".$approveResult[$x]['id']);
+                                                                    $resultTestAprov = mysqli_fetch_all($getDataTestAprov, MYSQLI_ASSOC);
+                                                                    if (!empty($resultTestAprov)) {
+
+                                                                        $test_1_resultAp = $getScore->user_single_test_result($resultTestAprov[0]['test_1_id'],$resultTestAprov[0]['test_1_content']);
+                                                                        $test_2_resultAp = $getScore->user_single_test_result($resultTestAprov[0]['test_2_id'],$resultTestAprov[0]['test_2_content']);
+                                                                        $test_3_resultAp = $getScore->user_single_test_result($resultTestAprov[0]['test_3_id'],$resultTestAprov[0]['test_3_content']);
+                                                                        $test_4_resultAp = $getScore->user_single_test_result($resultTestAprov[0]['test_4_id'],$resultTestAprov[0]['test_4_content']);
+                                                                        $test_5_resultAp = $getScore->user_single_test_result($resultTestAprov[0]['test_5_id'],$resultTestAprov[0]['test_5_content']);
+
+                     print '<p><b>Test One Score:</b></p><p style="white-space: pre-line">'.$test_1_resultAp['content'].'</p>';
+                     print '<p><b>Test Two Score:</b></p><p style="white-space: pre-line">'.$test_1_resultAp['content'].'</p>';
+                     print '<p><b>Test Three Score:</b></p><p style="white-space: pre-line">'.$test_1_resultAp['content'].'</p>';
+                     print '<p><b>Test Four Score:</b></p><p style="white-space: pre-line">'.$test_1_resultAp['content'].'</p>';
+                     print '<p><b>Test Five Score:</b></p><p style="white-space: pre-line">'.$test_1_resultAp['content'].'</p>';
+
+                                                                    }else{
+                                                                        print '<p><b>Data Not Found</b></p>';
+                                                                    }
+
+                                                                                        ?>
+
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -807,11 +763,11 @@ if (isset($_GET['tab'])) {
                                                     <?php } ?>
                                                     </tbody>
                                                 </table>
-
                                             </div>
                                             <?php if (!empty($_GET)){ ?>
         <?php if ($_GET['tab'] == "test"){ ?>
         <div id="audio_test" class="tabcontent show p-1">
+            <?php echo (isset($_SESSION["err_message"]))?$_SESSION["err_message"]:'' ?>
             <?php }else if ($_GET['tab'] == "approved"){ ?>
             <div id="audio_test" class="tabcontent p-1">
                 <?php }else if ($_GET['tab'] == "email"){ ?>
@@ -1295,7 +1251,7 @@ if (isset($_GET['tab'])) {
                                                                     EMAIL</small>&ensp;<strong
                                                                         style="font-size: 12px;">JOB
                                                                     TYPE:
-                                                                    PROOFREADER</strong>
+                                                                    TRANSCRIBER</strong>
                                                                 <br/>
                                                                 <form action="save_approve_email_template.php"
                                                                       method="post">
@@ -1345,7 +1301,7 @@ if (isset($_GET['tab'])) {
                                                                     ACCOUNT</small>&ensp;<strong
                                                                         style="font-size: 12px;">JOB
                                                                     TYPE:
-                                                                    PROOFREADER</strong>
+                                                                    TRANSCRIBER</strong>
                                                                 <br/>
                                                                 <form action="save_approve_email_template.php"
                                                                       method="post">
@@ -1395,9 +1351,6 @@ if (isset($_GET['tab'])) {
                                                                                     required>followupEmailTemplate
                                                                                 <option value="1" <?php if ($followupEmailTemplate[$d]['type'] == 1) echo "selected"; ?>>
                                                                                     Transcriber
-                                                                                </option>
-                                                                                <option value="2" <?php if ($followupEmailTemplate[$d]['type'] == 2) echo "selected"; ?>>
-                                                                                    Proofreader
                                                                                 </option>
                                                                             </select>
                                                                             <input type="hidden"
@@ -1471,61 +1424,6 @@ if (isset($_GET['tab'])) {
                                             </table>
                                         </div>
                                     </div>
-                                    <?php if (!empty($_GET)){ ?>
-                                    <?php if ($_GET['tab'] == "proofread"){ ?>
-                                    <div id="proofread" class="tabcontent p-1 show">
-                                        <?php }else{ ?>
-                                        <div id="proofread" class="tabcontent p-1">
-                                            <?php } ?>
-                                            <?php }else{ ?>
-                                            <div id="proofread"
-                                                 class="tabcontent p-1">
-                                                <?php } ?>
-                                                <button type="button"
-                                                        class="btn-success"
-                                                        style="font-size:1rem;"
-                                                        onclick="showModal(addQuestionModal)">
-                                                    Add Question
-                                                </button>
-                                                <br/>
-                                                <h4>List of Questions</h4>
-                                                <?php if (isset($_GET['tab'])) {
-                                                    if ($_GET['tab'] == "proofread") { ?>
-                                                        <?php if (mysqli_num_rows($getQuestions) > 0) { ?>
-                                                            <?php for ($q = 0; $q < count($questionResult); $q++) { ?>
-                                                                <p class="questions"
-                                                                   style="margin-bottom:0px">
-                                                                    <span><?php echo $q + 1; ?>.</span> <?php echo $questionResult[$q]['question']; ?>
-                                                                    <button type="button"
-                                                                            onclick="showRemoveQuestion(<?php echo $questionResult[$q]['id']; ?>)"
-                                                                            class="btn-danger">
-                                                                        Remove
-                                                                    </button>
-                                                                </p>
-                                                                <ul style="margin-top:5px;display:inline;padding-left:5px;">
-                                                                    <?php
-                                                                    $id = $questionResult[$q]['id'];
-                                                                    $getChoices = mysqli_query($db, "SELECT * FROM ts_question_choices WHERE question_id='$id'");
-                                                                    $choicsResult = mysqli_fetch_all($getChoices, MYSQLI_ASSOC);
-
-                                                                    if (mysqli_num_rows($getChoices) > 0) {
-                                                                        for ($c = 0; $c < count($choicsResult); $c++) {
-                                                                            if ($choicsResult[$c]['correct'] == NULL || $choicsResult[$c]['correct'] == "") {
-                                                                                echo "<li style='padding:0 1rem;display:inline;'>&#9675; <span>" . $choicsResult[$c]['description'] . "</span></li>";
-                                                                            } else {
-                                                                                echo "<li style='padding:0 1rem;display:inline;'>&#9679; <strong>" . $choicsResult[$c]['description'] . "</strong></li>";
-                                                                            }
-
-                                                                        }
-                                                                    }
-                                                                    ?>
-                                                                </ul>
-                                                            <?php } ?>
-                                                        <?php } ?>
-                                                    <?php } ?>
-                                                <?php } ?>
-                                            </div>
-
 
                                             <div id="deleteAllModal" class="modal">
                                                 <div class="modal-content">
@@ -1634,11 +1532,7 @@ if (isset($_GET['tab'])) {
                                                     </div>
                                                 </div>
                                             </div>
-        <?php
-        if (isset($_POST['approvedSubmit'])) {
-            echo 123123;
-        }
-        ?>
+        
         <script src="../js/jquery.min.js"
                 crossorigin="anonymous"></script>
         <script>
@@ -1683,7 +1577,7 @@ if (isset($_GET['tab'])) {
             }
 
             function addNewFollowupEmail() {
-                $(".btn-add-follow-up-email").before('<div class="follow-up-emails"> <small>FOLLOW UP EMAILS</small> <br/><form action="add_followup_email_template.php" method="post"><textarea name="content" rows="15" style="width:100%;"></textarea><br/> <small>Delayed Time </small><input type="number" min="1" max="9999999" name="delayed_time" required> <small>hrs</small> &ensp;<select name="type" required>followupEmailTemplate<option value="1">Transcriber</option><option value="2">Proofreader</option> </select><div style="float:right"> <button type="submit" class="btn-success" style="font-size:12px;">SAVE</button></div></form></div> <br/>');
+                $(".btn-add-follow-up-email").before('<div class="follow-up-emails"> <small>FOLLOW UP EMAILS</small> <br/><form action="add_followup_email_template.php" method="post"><textarea name="content" rows="15" style="width:100%;"></textarea><br/> <small>Delayed Time </small><input type="number" min="1" max="9999999" name="delayed_time" required> <small>hrs</small> &ensp;<select name="type" required>followupEmailTemplate<option value="1">Transcriber</option> </select><div style="float:right"> <button type="submit" class="btn-success" style="font-size:12px;">SAVE</button></div></form></div> <br/>');
             }
 
             function addKeyword() {
@@ -1795,3 +1689,5 @@ if (isset($_GET['tab'])) {
         </script>
 </body>
 </html>
+
+<?php session_destroy(); ?>

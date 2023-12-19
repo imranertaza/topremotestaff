@@ -6,8 +6,10 @@ require '../admin/controller/crud.php';
 
 $crud = new Crud();
 
-$audio = $db->query($crud->getAll('ts_test'));
+
+$audio = mysqli_query($db, "SELECT * FROM ts_test ORDER BY RAND() LIMIT 0,5");
 $result = mysqli_fetch_all($audio, MYSQLI_ASSOC);
+
 
 if (isset($_SERVER['HTTP_CLIENT_IP'])){
     $ip = $_SERVER['HTTP_CLIENT_IP'];
@@ -21,10 +23,7 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])){
 setcookie("ts_ip", $ip, time() + (86400 * 30),'/');
 
 $ipLast =  isset($_COOKIE["ts_ip"]) ? $_COOKIE["ts_ip"] : "";
-//
-//print $code;
-//
-//die();
+
 ?>
 
 
@@ -54,47 +53,11 @@ $ipLast =  isset($_COOKIE["ts_ip"]) ? $_COOKIE["ts_ip"] : "";
 
 
 </head>
-<body>
+<body style="overflow-x: hidden">
 
 <form id="saveStaffForm" method="post" action="save_staff.php">
 
     <div class="transcribe-panel">
-        <div class="topbar inputting">
-            <div class="title">Transcribe</div>
-            <div class="controls">
-                <div class="button play-pause">
-                    <i class="fa fa-play"></i><i class="fa fa-pause"></i>
-                    <div class="topbar-button-shortcut" data-shortcut="playPause">esc</div>
-                </div>
-                <div class="button skip-backwards">
-                    <i class="fa fa-backward"></i>
-                    <div class="topbar-button-shortcut" data-shortcut="backwards">f1</div>
-                </div>
-                <div class="button skip-forwards">
-                    <i class="fa fa-forward"></i>
-                    <div class="topbar-button-shortcut" data-shortcut="forwards">f2</div>
-                </div>
-                <div class="button speed">
-                    <i class="fa fa-dashboard"></i> <span data-l10n-id="speed">speed</span>
-                    <div class="speed-box">
-                        <span data-shortcut="speedDown">f3</span>
-                        <i class="slider-origin"></i>
-                        <input class="speed-slider" type="range" min="0.5" max="2.0" step="0.25" value="1"/>
-                        <span data-shortcut="speedUp">f4</span>
-                    </div>
-                </div>
-                <div id="player-hook"></div>
-                <div class="button player-time"></div>
-                <div class="time-selection">
-                    <label>
-                        <span data-l10n-id="jump-to-time">Jump to time:</span>
-                        <input type="text" value="0:00" class="mousetrap"/>
-                    </label>
-                </div>
-<!--                <div class="button reset"><i class="fa fa-refresh"></i></div>-->
-            </div>
-        </div>
-
         <div class="textbox-container">
             <div class="input active">
                 <div class="file-input-outer">
@@ -137,10 +100,228 @@ $ipLast =  isset($_COOKIE["ts_ip"]) ? $_COOKIE["ts_ip"] : "";
                     </div>
                     <h6 class="text-white ml-5 pt-3">[ESC] - Play/Pause/Resume</h6>
                 </div>
-                <div class="col-8">
-<!--                    <textarea name="content" id="textbox1" onkeyup="adjustHeight(this)" spellcheck="false"-->
-                    <textarea name="content" id="textbox1" spellcheck="false"
-                              style="height: 740px;"></textarea>
+                <div class="col-8 pt-5">
+                    <!--question wrapper start-->
+                    <div class="question-wrapper mb-5">
+                        <div class="topbar inputting position-relative">
+                            <div class="title">Transcribe</div>
+                            <div class="controls">
+                                <div class="button play-pause play-pause-0">
+                                    <i class="fa fa-play"></i><i class="fa fa-pause"></i>
+                                    <div class="topbar-button-shortcut" data-shortcut="playPause">esc</div>
+                                </div>
+                                <div class="button skip-backwards-0">
+                                    <i class="fa fa-backward"></i>
+                                    <div class="topbar-button-shortcut" data-shortcut="backwards">f1</div>
+                                </div>
+                                <div class="button skip-forwards-0">
+                                    <i class="fa fa-forward"></i>
+                                    <div class="topbar-button-shortcut" data-shortcut="forwards">f2</div>
+                                </div>
+                                <div class="button speed">
+                                    <i class="fa fa-dashboard"></i> <span data-l10n-id="speed">speed</span>
+                                    <div class="speed-box">
+                                        <span data-shortcut="speedDown">f3</span>
+                                        <i class="slider-origin"></i>
+                                        <input class="speed-slider-0" type="range" min="0.5" max="2.0" step="0.25" value="1"/>
+                                        <span data-shortcut="speedUp">f4</span>
+                                    </div>
+                                </div>
+                                <div id="player-hook-0"></div>
+                                <div class="button player-time"></div>
+                                <div class="time-selection">
+                                    <label>
+                                        <span data-l10n-id="jump-to-time">Jump to time:</span>
+                                        <input type="text" value="0:00" class="mousetrap"/>
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <textarea class="textbox-decoration" name="video_content_1" id="textbox-0" spellcheck="false"
+                                  style="height: 340px;"></textarea>
+
+                        <input type="hidden" name="video_id_1" id="video_id_0" >
+                    </div>
+                    <!--question wrapper end-->
+
+                    <!--question wrapper start-->
+                    <div class="question-wrapper mb-5">
+                        <div class="topbar inputting position-relative">
+                            <div class="title">Transcribe</div>
+                            <div class="controls">
+                                <div class="button play-pause play-pause-1">
+                                    <i class="fa fa-play"></i><i class="fa fa-pause"></i>
+                                    <div class="topbar-button-shortcut" data-shortcut="playPause">esc</div>
+                                </div>
+                                <div class="button skip-backwards-1">
+                                    <i class="fa fa-backward"></i>
+                                    <div class="topbar-button-shortcut" data-shortcut="backwards">f1</div>
+                                </div>
+                                <div class="button skip-forwards-1">
+                                    <i class="fa fa-forward"></i>
+                                    <div class="topbar-button-shortcut" data-shortcut="forwards">f2</div>
+                                </div>
+                                <div class="button speed">
+                                    <i class="fa fa-dashboard"></i> <span data-l10n-id="speed">speed</span>
+                                    <div class="speed-box">
+                                        <span data-shortcut="speedDown">f3</span>
+                                        <i class="slider-origin"></i>
+                                        <input class="speed-slider-1" type="range" min="0.5" max="2.0" step="0.25" value="1"/>
+                                        <span data-shortcut="speedUp">f4</span>
+                                    </div>
+                                </div>
+                                <div id="player-hook-1"></div>
+                                <div class="button player-time"></div>
+                                <div class="time-selection">
+                                    <label>
+                                        <span data-l10n-id="jump-to-time">Jump to time:</span>
+                                        <input type="text" value="0:00" class="mousetrap"/>
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <textarea class="textbox-decoration " name="video_content_2" id="textbox-1" spellcheck="false"
+                                  style="height: 340px;"></textarea>
+                        <input type="hidden" name="video_id_2" id="video_id_1" >
+                    </div>
+                    <!--question wrapper end-->
+
+                    <!--question wrapper start-->
+                    <div class="question-wrapper mb-5">
+                        <div class="topbar inputting position-relative">
+                            <div class="title">Transcribe</div>
+                            <div class="controls">
+                                <div class="button play-pause play-pause-2">
+                                    <i class="fa fa-play"></i><i class="fa fa-pause"></i>
+                                    <div class="topbar-button-shortcut" data-shortcut="playPause">esc</div>
+                                </div>
+                                <div class="button skip-backwards-2">
+                                    <i class="fa fa-backward"></i>
+                                    <div class="topbar-button-shortcut" data-shortcut="backwards">f1</div>
+                                </div>
+                                <div class="button skip-forwards-2">
+                                    <i class="fa fa-forward"></i>
+                                    <div class="topbar-button-shortcut" data-shortcut="forwards">f2</div>
+                                </div>
+                                <div class="button speed">
+                                    <i class="fa fa-dashboard"></i> <span data-l10n-id="speed">speed</span>
+                                    <div class="speed-box">
+                                        <span data-shortcut="speedDown">f3</span>
+                                        <i class="slider-origin"></i>
+                                        <input class="speed-slider-2" type="range" min="0.5" max="2.0" step="0.25" value="1"/>
+                                        <span data-shortcut="speedUp">f4</span>
+                                    </div>
+                                </div>
+                                <div id="player-hook-2"></div>
+                                <div class="button player-time"></div>
+                                <div class="time-selection">
+                                    <label>
+                                        <span data-l10n-id="jump-to-time">Jump to time:</span>
+                                        <input type="text" value="0:00" class="mousetrap"/>
+                                    </label>
+                                </div>
+                                <!--                <div class="button reset"><i class="fa fa-refresh"></i></div>-->
+                            </div>
+                        </div>
+                        <!--                    <textarea name="content" id="textbox1" onkeyup="adjustHeight(this)" spellcheck="false"-->
+                        <textarea class="textbox-decoration " name="video_content_3" id="textbox-2" spellcheck="false"
+                                  style="height: 340px;"></textarea>
+                        <input type="hidden" name="video_id_3" id="video_id_2" >
+                    </div>
+                    <!--question wrapper end-->
+
+                    <!--question wrapper start-->
+                    <div class="question-wrapper mb-5">
+                        <div class="topbar inputting position-relative">
+                            <div class="title">Transcribe</div>
+                            <div class="controls">
+                                <div class="button play-pause play-pause-3">
+                                    <i class="fa fa-play"></i><i class="fa fa-pause"></i>
+                                    <div class="topbar-button-shortcut" data-shortcut="playPause">esc</div>
+                                </div>
+                                <div class="button skip-backwards-3">
+                                    <i class="fa fa-backward"></i>
+                                    <div class="topbar-button-shortcut" data-shortcut="backwards">f1</div>
+                                </div>
+                                <div class="button skip-forwards-3">
+                                    <i class="fa fa-forward"></i>
+                                    <div class="topbar-button-shortcut" data-shortcut="forwards">f2</div>
+                                </div>
+                                <div class="button speed">
+                                    <i class="fa fa-dashboard"></i> <span data-l10n-id="speed">speed</span>
+                                    <div class="speed-box">
+                                        <span data-shortcut="speedDown">f3</span>
+                                        <i class="slider-origin"></i>
+                                        <input class="speed-slider-3" type="range" min="0.5" max="2.0" step="0.25" value="1"/>
+                                        <span data-shortcut="speedUp">f4</span>
+                                    </div>
+                                </div>
+                                <div id="player-hook-3"></div>
+                                <div class="button player-time"></div>
+                                <div class="time-selection">
+                                    <label>
+                                        <span data-l10n-id="jump-to-time">Jump to time:</span>
+                                        <input type="text" value="0:00" class="mousetrap"/>
+                                    </label>
+                                </div>
+                                <!--                <div class="button reset"><i class="fa fa-refresh"></i></div>-->
+                            </div>
+                        </div>
+                        <!--                    <textarea name="content" id="textbox1" onkeyup="adjustHeight(this)" spellcheck="false"-->
+                        <textarea class="textbox-decoration" name="video_content_4" id="textbox-3" spellcheck="false"
+                                  style="height: 340px;"></textarea>
+                        <input type="hidden" name="video_id_4" id="video_id_3" >
+                    </div>
+                    <!--question wrapper end-->
+
+                    <!--question wrapper start-->
+                    <div class="question-wrapper mb-5">
+                        <div class="topbar inputting position-relative">
+                            <div class="title">Transcribe</div>
+                            <div class="controls">
+                                <div class="button play-pause play-pause-4">
+                                    <i class="fa fa-play"></i><i class="fa fa-pause"></i>
+                                    <div class="topbar-button-shortcut" data-shortcut="playPause">esc</div>
+                                </div>
+                                <div class="button skip-backwards-4">
+                                    <i class="fa fa-backward"></i>
+                                    <div class="topbar-button-shortcut" data-shortcut="backwards">f1</div>
+                                </div>
+                                <div class="button skip-forwards-4">
+                                    <i class="fa fa-forward"></i>
+                                    <div class="topbar-button-shortcut" data-shortcut="forwards">f2</div>
+                                </div>
+                                <div class="button speed">
+                                    <i class="fa fa-dashboard"></i> <span data-l10n-id="speed">speed</span>
+                                    <div class="speed-box">
+                                        <span data-shortcut="speedDown">f3</span>
+                                        <i class="slider-origin"></i>
+                                        <input class="speed-slider-4" type="range" min="0.5" max="2.0" step="0.25" value="1"/>
+                                        <span data-shortcut="speedUp">f4</span>
+                                    </div>
+                                </div>
+                                <div id="player-hook-4"></div>
+                                <div class="button player-time"></div>
+                                <div class="time-selection">
+                                    <label>
+                                        <span data-l10n-id="jump-to-time">Jump to time:</span>
+                                        <input type="text" value="0:00" class="mousetrap"/>
+                                    </label>
+                                </div>
+                                <!--                <div class="button reset"><i class="fa fa-refresh"></i></div>-->
+                            </div>
+                        </div>
+                        <!--                    <textarea name="content" id="textbox1" onkeyup="adjustHeight(this)" spellcheck="false"-->
+                        <textarea class="textbox-decoration" name="video_content_5" id="textbox-4" spellcheck="false" style="height: 340px;"></textarea>
+
+                        <input type="hidden" name="video_id_5" id="video_id_4" >
+                    </div>
+                    <!--question wrapper end-->
+
                     <div class="file-input-wrapperNew">
                         <div class="alert alert-danger mb-0 p-2" id="alertTextbox" role="alert">
                             Your application has been rejected, we do not accept partially complete application.
@@ -172,20 +353,35 @@ $ipLast =  isset($_COOKIE["ts_ip"]) ? $_COOKIE["ts_ip"] : "";
 
 
 <script type="text/javascript">
+
     var modal = document.getElementById("myModal");
     var chckModal = 0;
     var addMin = 0, addSec = 0;
-    loadMedia();
+
+    var files = [<?php foreach ($result as $val){ print "'".$val['audio_link'].'-'.$val['id']."',"; }?>];
+    const lengthOfAdio = files.length;
+
     $(document).ready(function () {
-       
 
         $(".transcribe-panel").show();
 
         loadMedia();
+        //minimum length of audio text box
+        const minLengthText= 100;
+        // this function and event using for audio text box validation
         $("#saveCallBtnSave").click(function () {
-            var count = $("#textbox1").val().length;
+            // var count = $("#textbox").val().length;
 
-            if (count < 800) {
+            let  validation;
+            for (let i = 0; i < lengthOfAdio ; i++){
+                if ($(`#textbox-${i}`).val().length < minLengthText) {
+                    validation = false;
+                    break;
+                } else {
+                    validation = true;
+                }
+            }
+            if (!validation) {
                 $("#alertTextbox").show();
             } else {
                 $("#saveStaffForm").submit();
@@ -193,11 +389,11 @@ $ipLast =  isset($_COOKIE["ts_ip"]) ? $_COOKIE["ts_ip"] : "";
         });
     });
 
-    function scrollToDiv(id) {
-        $('html, body').animate({
-            scrollTop: $(id).offset().top
-        }, 1000);
-    }
+    // function scrollToDiv(id) {
+    //     $('html, body').animate({
+    //         scrollTop: $(id).offset().top
+    //     }, 1000);
+    // }
 
     function countWords(str) {
         return str.trim().split(/\s+/).length;
@@ -241,9 +437,8 @@ $ipLast =  isset($_COOKIE["ts_ip"]) ? $_COOKIE["ts_ip"] : "";
     }
 
     function loadMedia() {
-        // var files = ['https://transcriptionstaff.com/audio1.mp3-1', 'https://transcriptionstaff.com/audio2.mp3-2', 'https://transcriptionstaff.com/audio3.mp3-3', 'https://transcriptionstaff.com/audio4.mp3-4', 'https://transcriptionstaff.com/audio5.mp3-5'];
-        var files = [<?php foreach ($result as $val){ print "'".$val['audio_link'].'|'.$val['id']."',"; }?>];
-        var audioNum = randomIntFromInterval(0, <?php print $audio->num_rows;?>);
+
+        var audioNum = randomIntFromInterval(0, 4);
 
         var aFile = files[audioNum];
         let fiArray = aFile.split("|");
@@ -268,39 +463,58 @@ $ipLast =  isset($_COOKIE["ts_ip"]) ? $_COOKIE["ts_ip"] : "";
         }
         // Setting cookies for the audio file for a specific user (End)
 
-        
-        var opts = {
-            source: file,
-            container: $('#player-hook')[0],
-            startpoint: 0,
-            buttons: {
-                playPause: '.play-pause'
 
+
+
+        var opts = [];
+
+        for (let i = 0; i < lengthOfAdio ; i++){
+            opts[i] = {
+                source: files[i].replace(/-[\d]+$/, ''),
+                container: $(`#player-hook-${i}`)[0],
+                startpoint: 0,
+                buttons: {
+                    playPause: `.play-pause-${i}`
+                }
             }
-        }
+        };
+
         var filename = file.replace(/^.*[\\\/]/, '');
+        var filenames = [];
 
-        if (window.player) {
-            window.player.reset();
-        }
-        window.player = new oTplayer(opts);
-        player.pause();
+        window.player={};
+         for (let i = 0; i < lengthOfAdio ; i++){
+             if (window.player[i]) {
+                 window.player[i].reset();
+             }
+             filenames[i] = files[i].replace(/.*\/([^\/]+)-\d+$/, '$1');
+             let videotrim =files[i].replace(/^.*[\\\/]/, '');
+             let videoId = videotrim.split('-')
 
-        if (isVideo(filename) == true) {
-            var jqProgressBar = new Progressor({
-                media: $('video')[0],
-                bar: $('#player-hook')[0],
-                text: filename,
-                time: $('.player-time')[0]
-            });
-            $('video').addClass('video-player');
-        } else {
-            var jqProgressBar = new Progressor({
-                media: $('audio')[0],
-                bar: $('#player-hook')[0],
-                text: filename,
-                time: $('.player-time')[0]
-            });
+              $(`#video_id_${i}`).val(videoId[1]);
+             window.player[i] = new oTplayer(opts[i]);
+         }
+
+         // player[0].pause();
+
+        for (let i = 0; i < lengthOfAdio ; i++) {
+
+            if (isVideo(filename) == true) {
+                var jqProgressBar = new Progressor({
+                    media: $('video')[i],
+                    bar: opts[i].container,
+                    text: filenames[i],
+                    time: $('.player-time')[i]
+                });
+                $('video').addClass('video-player');
+            } else {
+                var jqProgressBar = new Progressor({
+                    media: $('audio')[i],
+                    bar: opts[i].container,
+                    text: filenames[i],
+                    time: $('.player-time')[i]
+                });
+            }
         }
     }
 
@@ -316,7 +530,6 @@ $ipLast =  isset($_COOKIE["ts_ip"]) ? $_COOKIE["ts_ip"] : "";
                 return decodeURIComponent(value);
             }
         }
-
         return null;
     }
 
@@ -352,22 +565,27 @@ $ipLast =  isset($_COOKIE["ts_ip"]) ? $_COOKIE["ts_ip"] : "";
             );
         }
     }
-    $('.skip-backwards').click(function () {
-        player.skip('backwards');
-    });
+
+    for (let i = 0; i < lengthOfAdio ; i++){
+        // console.log($('.skip-backwards')[i])
+        $(`.skip-backwards-${i}`).click(function () {
+            // console.log(player[i])
+            player[i].skip('backwards');
+        });
+
+        $(`.skip-forwards-${i}`).click(function () {
+            player[i].skip('forwards');
+        });
+
+        $(`.speed-slider-${i}`).change(function () {
+            player[i].speed(this.valueAsNumber);
+        });
+    }
+
     $(document).on('click', ".timestamp", function () {
         ts.setFrom($(this).attr('lang'), this);
     });
-    $('.skip-forwards').click(function () {
-        player.skip('forwards');
-    });
-    $('.reset').click(function () {
-        player.reset();
-        loadMedia();
-    });
-    $(".speed-slider").change(function () {
-        player.speed(this.valueAsNumber);
-    });
+
     $(".collapse.show").each(function () {
         $(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
     });
@@ -378,23 +596,24 @@ $ipLast =  isset($_COOKIE["ts_ip"]) ? $_COOKIE["ts_ip"] : "";
         $(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
     });
     document.addEventListener("keydown", function (event) {
-
-        if (event.which == 27) {
-            player.playPause();
-        } else if (event.ctrlKey == true && event.keyCode == 74) {
-            event.preventDefault();
-            ts.insert();
-        } else if (event.which == 112) {
-            event.preventDefault();
-            player.skip('backwards');
-        } else if (event.which == 113) {
-            player.skip('forwards');
-        } else if (event.which == 114) {
-            player.speed('down');
-        } else if (event.which == 115) {
-            player.speed('up');
+        for (let i = 0; i < lengthOfAdio ; i++){
+            if (event.which == 27) {
+                player[i].playPause();
+            } else if (event.ctrlKey == true && event.keyCode == 74) {
+                event.preventDefault();
+                ts.insert();
+            } else if (event.which == 112) {
+                event.preventDefault();
+                player[i].skip('backwards');
+            } else if (event.which == 113) {
+                player[i].skip('forwards');
+            } else if (event.which == 114) {
+                player[i].speed('down');
+            } else if (event.which == 115) {
+                player[i].speed('up');
+            }
+            $(`.speed-slider-${i}`).val(player[i].getSpeed());
         }
-        $(".speed-slider").val(player.getSpeed());
     });
 </script>
 
