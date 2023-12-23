@@ -336,6 +336,9 @@ $ipLast =  isset($_COOKIE["ts_ip"]) ? $_COOKIE["ts_ip"] : "";
                     <input type="hidden" class="modal__input" name="email" value="<?php echo $_POST['email'];?>" >
                     <input type="hidden" class="modal__input" name="phone" value="<?php echo $_POST['phone'];?>" >
                     <input type="hidden" class="modal__input" name="skype" value="<?php echo $_POST['skype'];?>" >
+
+                    <input type="hidden" class="form-control p-4" name="fingerprint_id" id="fingerprint_id">
+
                 </div>
             </div>
 
@@ -613,6 +616,43 @@ $ipLast =  isset($_COOKIE["ts_ip"]) ? $_COOKIE["ts_ip"] : "";
             $(`.speed-slider-${i}`).val(player[i].getSpeed());
         }
     });
+</script>
+
+<script type="module">
+
+    // Initialize the agent at application startup.
+    const fpPromise = import('https://openfpcdn.io/fingerprintjs/v4')
+        .then(FingerprintJS => FingerprintJS.load())
+
+    // Get the visitor identifier when you need it.
+    fpPromise
+        .then(fp => fp.get())
+        .then(result => {
+            // This is the visitor identifier:
+            const visitorId = result.visitorId
+            $('#fingerprint_id').val(visitorId);
+            // console.log(visitorId)
+        })
+
+
+    // Initialize the agent at application startup.
+
+
+
+    //     // const fpPromise = import('./fingerprint.js')
+    //      const fpPromise = import('https://fpjscdn.net/v3/2uun7vp12Yh8SNNyLQS3')
+    //    // const fpPromise = import('https://openfpcdn.io/fingerprintjs/v4')
+    //     .then(FingerprintJS => FingerprintJS.load())
+    //
+    // // Get the visitor identifier when you need it.
+    // fpPromise
+    //     .then(fp => fp.get())
+    //     .then(result => {
+    //         // This is the visitor identifier:
+    //         const visitorId = result.visitorId
+    //         console.log(visitorId)
+    //     })
+
 </script>
 
 

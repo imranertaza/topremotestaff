@@ -190,9 +190,15 @@ if (isset($_GET['tab'])) {
                                 <table cellspacing="0">
                                     <thead>
                                     <tr>
-                                        <th style="width:20%">Full Name</th>
-                                        <th style="width:20%">Email</th>
+                                        <th style="width:15%">Full Name<br>
+                                            <button onclick="tagallSelect()" type="button">Tag All</button>
+                                        </th>
+                                        <th style="width:25%">Email</th>
                                         <th style="width:10%">Phone</th>
+                                        <th style="width:10%">
+                                            Fingerprint Id<br/>
+                                            <button onclick="fingerduplicateid()" type="button">Fingerprint Duplicate</button>
+                                        </th>
                                         <th style="width:15%">IP Address<br/>
                                             <button onclick="tagduplicateip()" type="button">Tag Duplicate</button>
                                         </th>
@@ -233,12 +239,16 @@ if (isset($_GET['tab'])) {
                                             <?php
 
                                             $ip_list = array();
-
                                             for ($x = 0; $x < count($result); $x++) {
                                                 array_push($ip_list, $result[$x]['ip_address']);
                                             }
-
                                             $ip_list = array_unique(array_diff_assoc($ip_list, array_unique($ip_list)));
+
+                                            $id_finger = array();
+                                            for ($x = 0; $x < count($result); $x++) {
+                                                array_push($id_finger, $result[$x]['fingerprint_id']);
+                                            }
+                                            $id_finger = array_unique(array_diff_assoc($id_finger, array_unique($id_finger)));
 
                                             for ($x = 0; $x < count($result); $x++) {
 
@@ -248,23 +258,30 @@ if (isset($_GET['tab'])) {
                                                     $duplicated_ip = 1;
                                                 }
 
+                                                $search_finger_ip = array_search($result[$x]['fingerprint_id'], $id_finger);
+                                                $duplicated_finger_ip = 0;
+                                                if (!empty($search_finger_ip) || $search_finger_ip != "") {
+                                                    $duplicated_finger_ip = 1;
+                                                }
+
                                                 ?>
                                                 <tr>
-                                                    <td><?php echo urldecode($result[$x]['fullname']); ?></td>
-                                                    <td><?php echo $result[$x]['email']; ?></td>
-                                                    <td><?php echo urldecode($result[$x]['phone']); ?></td>
-                                                    <td><?php echo urldecode($result[$x]['ip_address']); ?></td>
-                                                    <td>
+                                                    <td style="word-break:break-word;" ><?php echo urldecode($result[$x]['fullname']); ?></td>
+                                                    <td style="word-break:break-word;" ><?php echo $result[$x]['email']; ?></td>
+                                                    <td style="word-break:break-word;" ><?php echo urldecode($result[$x]['phone']); ?></td>
+                                                    <td style="word-break:break-word;" ><?php echo $result[$x]['fingerprint_id']; ?></td>
+                                                    <td style="word-break:break-word;" ><?php echo urldecode($result[$x]['ip_address']); ?></td>
+                                                    <td style="word-break:break-word;" >
                                                         <?php echo $result[$x]['code']; ?>
 
                                                     </td>
-                                                    <td>
+                                                    <td style="word-break:break-word;" >
                                                         <button class="btn-default"
                                                                 onclick="showModal(<?php echo "contentmodal" . (string)$result[$x]['id']; ?>)">
                                                             VIEW CONTENT
                                                         </button>
                                                     </td>
-                                                    <td class="score-total">
+                                                    <td class="score-total" style="word-break:break-word;">
                                                         <?php
 
                                                         $getDataTest = mysqli_query($db, "SELECT * FROM ts_user_test WHERE user_id=".$result[$x]['id']);
@@ -312,7 +329,7 @@ if (isset($_GET['tab'])) {
 
                                                     </td>
 
-                                                    <td>
+                                                    <td >
                                                         <button class="btn-success"
                                                                 onclick="showModal(<?php echo "approvemodal" . (string)$result[$x]['id']; ?>)">
                                                             APPROVE
@@ -528,7 +545,7 @@ if (isset($_GET['tab'])) {
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td class="rating<?php echo round($score,0); ?> <?php echo ($duplicated_ip > 0) ? "duplicateip" : ""; ?> <?php echo ($result[$x]['code'] == "" || $result[$x]['code'] == null) ? "nocode" : ""; ?>
+                                                    <td class="rating<?php echo round($score,0); ?> <?php echo ($duplicated_finger_ip > 0) ? "duplicatefingerId" : ""; ?> <?php echo ($duplicated_ip > 0) ? "duplicateip" : ""; ?> <?php echo ($result[$x]['code'] == "" || $result[$x]['code'] == null) ? "nocode" : ""; ?>
                                                     <?php
                                                     if (!empty($resultTest)) {
                                                         for ($c = 1; $c <= 5; $c++){
@@ -1525,6 +1542,18 @@ if (isset($_GET['tab'])) {
                                                                                         $('.remove_all').prop('checked', false);
                                                                                         $('.duplicateip .remove_all').prop('checked', true);
 
+                                                                                    }
+
+                                                                                    function fingerduplicateid() {
+
+                                                                                        $('.remove_all').prop('checked', false);
+                                                                                        $('.duplicatefingerId .remove_all').prop('checked', true);
+
+                                                                                    }
+
+                                                                                    function tagallSelect() {
+                                                                                        $('.remove_all').prop('checked', false);
+                                                                                        $('.remove_all').prop('checked', true);
                                                                                     }
 
                                                                                     function tagnocode() {

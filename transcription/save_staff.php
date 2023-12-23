@@ -17,6 +17,13 @@ if(!empty($_POST)) {
 	$checkEmail = $db->query($crud->getOrData('ts_users', array("email"), array(trim($_POST['email']))));
 	$checkBlackList = $db->query($crud->getOrData('ts_blacklist', array("email"), array(trim($_POST['email']))));
 
+//	$checkFingerprintId = $db->query($crud->getOrData('ts_users', array("fingerprint_id"), array($_POST['fingerprint_id'])));
+//
+//	if ($checkFingerprintId->num_rows > 0) {
+//		header('Location: failed.php');
+//		die();
+//	}
+
 	if ($checkEmail->num_rows > 0) {
 		header('Location: failed.php');
 	}else{
@@ -43,6 +50,7 @@ if(!empty($_POST)) {
 					'email' => $_POST['email'],
 					'phone' => urlencode($_POST['phone']),
 					'skype' => urlencode($_POST['skype']),
+					'fingerprint_id' => $_POST['fingerprint_id'],
 					'ip_address' => $ip,
 					'code' => $code,
 					'paypal' => "",
